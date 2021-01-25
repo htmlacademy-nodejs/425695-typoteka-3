@@ -1,7 +1,7 @@
 # Личный проект «Типотека» [![Build status][travis-image]][travis-url]
 
 * Студент: [Дмитрий Котов](https://up.htmlacademy.ru/nodejs/3/user/425695).
-* Наставник: `Неизвестно`.
+* Наставник: [Алексей Марунин](https://htmlacademy.ru/profile/id1402867).
 
 ---
 
