@@ -2,10 +2,19 @@
 
 const DEFAULT_COMMAND = `--help`;
 const DEFAULT_COUNT = 1;
+const DEFAULT_PORT = 3000;
 const ExitCode = {
   ERROR: 1,
   SUCCESS: 0,
 };
+const HttpCode = {
+  OK: 200,
+  NOT_FOUND: 404,
+  INTERNAL_SERVER_ERROR: 500,
+  FORBIDDEN: 403,
+  UNAUTHORIZED: 401,
+};
+
 const FILE_NAME = `mocks.json`;
 const USER_ARGV_INDEX = 2;
 
@@ -27,10 +36,12 @@ module.exports = {
   CreatedDateMs,
   DEFAULT_COMMAND,
   DEFAULT_COUNT,
+  DEFAULT_PORT,
   ExitCode,
   FILE_CATEGORIES_PATH,
   FILE_NAME,
   FILE_SENTENCES_PATH,
   FILE_TITLES_PATH,
+  HttpCode,
   USER_ARGV_INDEX,
 };
