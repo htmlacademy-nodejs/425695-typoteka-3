@@ -3,17 +3,17 @@
 const express = require(`express`);
 const app = express();
 
-const {postsRoutes} = require(`../routes`);
+const routes = require(`../api`);
+const {API_PREFIX, DEFAULT_PORT, HttpCode} = require(`../constants`);
 
 app.use(express.json());
 
-app.use(`/posts`, postsRoutes);
+app.use(API_PREFIX, routes);
 
 app.use((req, res) => res
   .status(HttpCode.NOT_FOUND)
   .send(`Not found`));
 
-const {DEFAULT_PORT, HttpCode} = require(`../constants`);
 
 module.exports = {
   name: `--server`,
