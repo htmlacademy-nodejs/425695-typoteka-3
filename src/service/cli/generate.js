@@ -3,6 +3,7 @@
 const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
 const {nanoid} = require(`nanoid`);
+const {getLogger} = require(`../lib`);
 
 const {
   ANNOUNCE_MAX_COUNT,
@@ -21,6 +22,8 @@ const {
   getRandomInt,
   shuffle,
 } = require(`../utils`);
+
+const logger = getLogger({name: `generate`});
 
 const getCategories = (categories) => {
   const categoriesLength = getRandomInt(1, categories.length - 1);
@@ -56,7 +59,7 @@ const readContent = async (filePath) => {
 
     return content.split(`\n`).filter(Boolean);
   } catch (err) {
-    console.error(chalk.red(err));
+    logger.error(chalk.red(err));
     return [];
   }
 };
@@ -72,7 +75,7 @@ module.exports = {
     const [count] = args;
     const countArticle = Number.parseInt(count, 10) || DEFAULT_COUNT;
     if (countArticle > 1000) {
-      console.info(chalk.red(`Не больше 1000 публикаций.`));
+      logger.info(chalk.red(`Не больше 1000 публикаций.`));
       process.exit(ExitCode.ERROR);
     }
 
@@ -80,9 +83,9 @@ module.exports = {
     const content = JSON.stringify(articles);
     try {
       await fs.writeFile(FILE_MOCKS_NAME, content);
-      console.info(chalk.green(`Operation success. File created.`));
+      logger.info(chalk.green(`Operation success. File created.`));
     } catch (err) {
-      console.error(chalk.red(`Can't write data to file...`));
+      logger.error(chalk.red(`Can't write data to file...`));
     }
   }
 };

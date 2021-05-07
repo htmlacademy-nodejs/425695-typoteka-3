@@ -2,12 +2,13 @@
 
 const {Router} = require(`express`);
 
-const {HttpCode} = require(`../constants`);
-const {commentValidator, articleExist, articleValidator} = require(`../middlewares`);
+const {HttpCode} = require(`../../constants`);
+const {commentValidator, articleExist, articleValidator} = require(`../../middlewares`);
 
-const route = new Router();
 
 module.exports = (app, articleService, commentService) => {
+  const route = new Router();
+
   app.use(`/articles`, route);
 
   route.get(`/`, (req, res) => {
@@ -31,9 +32,9 @@ module.exports = (app, articleService, commentService) => {
   route.put(`/:articleId`, [articleExist(articleService), articleValidator], (req, res) => {
     const {articleId} = req.params;
 
-    articleService.update(articleId, req.body);
+    const updatedArticle = articleService.update(articleId, req.body);
 
-    return res.status(HttpCode.NO_CONTENT);
+    return res.status(HttpCode.OK).json(updatedArticle);
   });
 
   route.delete(`/:articleId`, articleExist(articleService), (req, res) => {
@@ -41,7 +42,7 @@ module.exports = (app, articleService, commentService) => {
 
     articleService.drop(articleId);
 
-    return res.status(HttpCode.NO_CONTENT);
+    return res.status(HttpCode.NO_CONTENT).send(`Article with id ${articleId} deleted`);
   });
 
   route.get(`/:articleId/comments`, articleExist(articleService), (req, res) => {
@@ -59,7 +60,7 @@ module.exports = (app, articleService, commentService) => {
       return res.status(HttpCode.NOT_FOUND).send(`Comment with ${commentId} not found`);
     }
 
-    return res.status(HttpCode.NO_CONTENT);
+    return res.status(HttpCode.NO_CONTENT).send(`Comment deleted`);
   });
 
   route.post(`/:articleId/comments`, [articleExist(articleService), commentValidator], (req, res) => {
