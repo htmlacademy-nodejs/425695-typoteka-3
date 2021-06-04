@@ -64,6 +64,7 @@ describe(`API creates an article if data is valid`, () => {
   const newArticle = {
     announce: `Вы можете достичь всего.`,
     categories: `Web`,
+    createdDate: new Date().toLocaleString(),
     fullText: `Берём и учим`,
     title: `Учим HTML и CSS.`,
   };
@@ -84,7 +85,6 @@ describe(`API creates an article if data is valid`, () => {
     const response = await request(app)
       .post(`/articles`)
       .send(newArticle);
-
     expect(response.body).toEqual(expect.objectContaining(newArticle));
   });
 
@@ -128,6 +128,7 @@ describe(`API changes existent article`, () => {
   const newArticle = {
     announce: `Вы можете достичь всего.`,
     categories: `Web`,
+    createdDate: new Date().toLocaleString(),
     fullText: `Берём и учим`,
     title: `Учим HTML и CSS.`,
   };

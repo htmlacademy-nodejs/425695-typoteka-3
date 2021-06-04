@@ -14,6 +14,7 @@ const {
   FILE_COMMENTS_PATH,
   FILE_MOCKS_NAME,
   FILE_SENTENCES_PATH,
+  FILE_PICTURES_PATH,
   FILE_TITLES_PATH,
   MAX_COMMENTS,
   MAX_ID_LENGTH,
@@ -32,8 +33,10 @@ const getCategories = (categories) => {
   .map(() => categories[getRandomInt(0, categoriesLength)])));
 };
 
-const generateComments = (count, comments) => (
+const generateComments = (article, count, comments) => (
   Array(count).fill({}).map(() => ({
+    article,
+    createdDate: new Date(),
     id: nanoid(MAX_ID_LENGTH),
     text: shuffle(comments)
       .slice(0, getRandomInt(1, 3))
@@ -41,16 +44,22 @@ const generateComments = (count, comments) => (
   }))
 );
 
-const generateArticles = (count, categories, sentences, titles, comments) => (
-  Array(count).fill({}).map(() => ({
-    announce: shuffle(sentences).slice(1, ANNOUNCE_MAX_COUNT).join(` `),
-    categories: getCategories(categories),
-    comments: generateComments(getRandomInt(1, MAX_COMMENTS), comments),
-    createdDate: new Date(getRandomInt(CreatedDateMs.MIN, CreatedDateMs.MAX)),
-    id: nanoid(MAX_ID_LENGTH),
-    title: titles[getRandomInt(0, titles.length - 1)],
-    fullText: shuffle(sentences).slice(1, getRandomInt(0, sentences.length - 1)).join(` `),
-  }))
+const generateArticles = (count, categories, sentences, titles, comments, pictures) => (
+  Array(count).fill({}).map(() => {
+    const articleBase = {
+      id: nanoid(MAX_ID_LENGTH),
+      title: titles[getRandomInt(0, titles.length - 1)],
+    };
+    return {
+      ...articleBase,
+      announce: shuffle(sentences).slice(1, ANNOUNCE_MAX_COUNT).join(` `),
+      categories: getCategories(categories),
+      comments: generateComments(articleBase, getRandomInt(1, MAX_COMMENTS), comments),
+      createdDate: new Date(getRandomInt(CreatedDateMs.MIN, CreatedDateMs.MAX)),
+      fullText: shuffle(sentences).slice(1, getRandomInt(0, sentences.length - 1)).join(` `),
+      picture: pictures[getRandomInt(1, pictures.length - 1)]
+    };
+  })
 );
 
 const readContent = async (filePath) => {
@@ -69,6 +78,7 @@ module.exports = {
   async run(args) {
     const categories = await readContent(FILE_CATEGORIES_PATH);
     const comments = await readContent(FILE_COMMENTS_PATH);
+    const pictures = await readContent(FILE_PICTURES_PATH);
     const sentences = await readContent(FILE_SENTENCES_PATH);
     const titles = await readContent(FILE_TITLES_PATH);
 
@@ -79,7 +89,7 @@ module.exports = {
       process.exit(ExitCode.ERROR);
     }
 
-    const articles = generateArticles(countArticle, categories, sentences, titles, comments);
+    const articles = generateArticles(countArticle, categories, sentences, titles, comments, pictures);
     const content = JSON.stringify(articles);
     try {
       await fs.writeFile(FILE_MOCKS_NAME, content);
