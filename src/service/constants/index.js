@@ -40,6 +40,7 @@ const FILE_SENTENCES_PATH = `./data/sentences.txt`;
 const FILE_TITLES_PATH = `./data/titles.txt`;
 const FILE_CATEGORIES_PATH = `./data/categories.txt`;
 const FILE_COMMENTS_PATH = `./data/comments.txt`;
+const FILE_PICTURES_PATH = `./data/pictures.txt`;
 const FILE_MOCKS_PATH = `./${FILE_MOCKS_NAME}`;
 const FILE_LOG = `./src/service/logs/api.log`;
 
@@ -60,6 +61,7 @@ module.exports = {
   FILE_LOG,
   FILE_MOCKS_NAME,
   FILE_MOCKS_PATH,
+  FILE_PICTURES_PATH,
   FILE_SENTENCES_PATH,
   FILE_TITLES_PATH,
   HttpCode,

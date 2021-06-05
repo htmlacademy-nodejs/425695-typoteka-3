@@ -4,6 +4,7 @@ const {Router} = require(`express`);
 
 const articles = require(`./articles/articles`);
 const categories = require(`./categories/categories`);
+const comments = require(`./comments/comments`);
 const search = require(`./search/search`);
 
 const {getMockData} = require(`../lib`);
@@ -21,6 +22,7 @@ const app = new Router();
 
   articles(app, new ArticleService(mockData), new CommentService(mockData));
   categories(app, new CategoryService(mockData));
+  comments(app, new CommentService(mockData));
   search(app, new SearchService(mockData));
 })();
 

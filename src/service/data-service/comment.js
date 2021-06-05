@@ -40,6 +40,10 @@ class CommentService {
     return {article, comment};
   }
 
+  getAll() {
+    return this._articles.reduce((accum, article) => [...accum, ...article.comments], []);
+  }
+
 }
 
 module.exports = CommentService;

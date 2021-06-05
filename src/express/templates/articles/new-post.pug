@@ -5,7 +5,7 @@ block content
     section
       .popup.popup--new-publication.popup--anti
         .new-publication
-          form(action='#' method='POST')
+          form(action='/articles/add' method='POST' enctype='multipart/form-data' autocomplete='off')
             .new-publication__header
               h1 Новая публикация
               .new-publication__date-form
@@ -31,6 +31,10 @@ block content
                       input.visually-hidden(type='file' name='upload')
                       | Обзор
                 .new-publication__category-wrapper
+                  each category, idx in categories
+                    .new-publication__checkbox(class=`new-publication__checkbox--${idx}`)
+                      input(id=idx type="checkbox" name="categories" value=category)
+                      label(for=idx) #{category}
                   a.new-publication__form-link.button.button--transparent(href='#') Добавить категорию
               .form__wrapper.form__wrapper--text
                 .form__field.form__field--publication-text

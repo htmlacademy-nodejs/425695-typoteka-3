@@ -9,9 +9,8 @@ class ArticleService {
   }
 
   create(article) {
-    const createdDate = new Date();
     const newArticle = Object
-      .assign({id: nanoid(MAX_ID_LENGTH), comments: [], createdDate}, article);
+      .assign({id: nanoid(MAX_ID_LENGTH), comments: []}, article);
 
     this._articles.push(newArticle);
     return newArticle;
