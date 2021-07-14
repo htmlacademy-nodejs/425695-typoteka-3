@@ -1,11 +1,13 @@
 'use strict';
 
+const fill = require(`./fill`);
 const generate = require(`./generate`);
 const help = require(`./help`);
 const server = require(`./server`);
 const version = require(`./version`);
 
 const Cli = {
+  [fill.name]: fill,
   [generate.name]: generate,
   [help.name]: help,
   [server.name]: server,
