@@ -10,7 +10,8 @@
     "start-front-server": "nodemon ./src/express/express.js",
     "test": "npm run test::rest",
     "test::rest": "jest ./src/service",
-    "lint": "eslint --ext .js src/"
+    "lint": "eslint --ext .js src/",
+    "fill": "node ./src/service/service.js --fill"
   },
   "repository": {
     "type": "git",

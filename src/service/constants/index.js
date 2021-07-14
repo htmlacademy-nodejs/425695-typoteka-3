@@ -7,7 +7,7 @@ const Env = {
 };
 
 const DEFAULT_COMMAND = `--help`;
-const DEFAULT_COUNT = 1;
+const DEFAULT_COUNT = 3;
 const DEFAULT_PORT = 3000;
 const ExitCode = {
   ERROR: 1,
@@ -36,13 +36,15 @@ const CreatedDateMs = {
 
 const ANNOUNCE_MAX_COUNT = 5;
 
+const DIR_LOG = `./src/service/logs`;
 const FILE_SENTENCES_PATH = `./data/sentences.txt`;
 const FILE_TITLES_PATH = `./data/titles.txt`;
 const FILE_CATEGORIES_PATH = `./data/categories.txt`;
 const FILE_COMMENTS_PATH = `./data/comments.txt`;
+const FILE_FILL_DB_NAME = `./queries/fill-db.sql`;
 const FILE_PICTURES_PATH = `./data/pictures.txt`;
 const FILE_MOCKS_PATH = `./${FILE_MOCKS_NAME}`;
-const FILE_LOG = `./src/service/logs/api.log`;
+const FILE_LOG = `${DIR_LOG}/api.log`;
 
 const MAX_COMMENTS = 4;
 const MAX_ID_LENGTH = 6;
@@ -54,10 +56,12 @@ module.exports = {
   DEFAULT_COMMAND,
   DEFAULT_COUNT,
   DEFAULT_PORT,
+  DIR_LOG,
   Env,
   ExitCode,
   FILE_CATEGORIES_PATH,
   FILE_COMMENTS_PATH,
+  FILE_FILL_DB_NAME,
   FILE_LOG,
   FILE_MOCKS_NAME,
   FILE_MOCKS_PATH,
