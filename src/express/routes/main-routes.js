@@ -6,10 +6,11 @@ const mainRouter = new Router();
 const api = getAPI();
 
 mainRouter.get(`/`, async (req, res) => {
-  const [articles] = await Promise.all([
-    api.getArticles(),
+  const [articles, categories] = await Promise.all([
+    api.getArticles({comments: true}),
+    api.getCategories(true)
   ]);
-  res.render(`main`, {articles});
+  res.render(`main`, {articles, categories});
 });
 mainRouter.get(`/register`, (req, res) => res.render(`main/sign-up`));
 mainRouter.get(`/login`, (req, res) => res.render(`main/login`));
