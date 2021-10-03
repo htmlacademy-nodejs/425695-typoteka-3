@@ -34,7 +34,8 @@ const CreatedDateMs = {
   MIN: new Date(currentDate.setMonth(currentDate.getMonth() - MONTHS_WITHIN_COUNT)).getTime(),
 };
 
-const ANNOUNCE_MAX_COUNT = 5;
+const ANNOUNCE_MAX_COUNT = 1;
+const FULLTEXT_MAX_COUNT = 3;
 
 const DIR_LOG = `./src/service/logs`;
 const FILE_SENTENCES_PATH = `./data/sentences.txt`;
@@ -52,6 +53,7 @@ const MAX_ID_LENGTH = 6;
 module.exports = {
   API_PREFIX,
   ANNOUNCE_MAX_COUNT,
+  FULLTEXT_MAX_COUNT,
   CreatedDateMs,
   DEFAULT_COMMAND,
   DEFAULT_COUNT,

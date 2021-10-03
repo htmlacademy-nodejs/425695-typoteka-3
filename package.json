@@ -7,6 +7,7 @@
     "start": "cross-env NODE_ENV=production LOG_LEVEL=error node -r dotenv/config ./src/service/service.js",
     "start::debug": "cross-env LOG_LEVEL=info NODE_ENV=development nodemon -r dotenv/config ./src/service/service.js",
     "start.dev": "nodemon -r dotenv/config ./src/service/service.js --server 3000",
+    "filldb": "cross-env LOG_LEVEL=info NODE_ENV=development node -r dotenv/config ./src/service/service.js --filldb",
     "server": "nodemon ./src/service/service.js --server 3000",
     "start-front-server": "nodemon ./src/express/express.js",
     "test": "npm run test::rest",

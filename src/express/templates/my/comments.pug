@@ -5,7 +5,7 @@ block content
     section.main-page__publication.publication
       h1.publication__title Комментарии
       ul.publication__list
-        each comment in comments
+        each comment in articles.comments
           li.publication__list-item
             .publication__header
               img.publication__list-image(src='/img/avatar-small-2.png' width='20' height='20' alt='Аватар пользователя')
@@ -13,6 +13,6 @@ block content
               time.publication__item-time(datetime='#{comment.createdDate}')
                 +date(comment.createdDate)
             a.publication__item-text(href='#') #{comment.text}
-            p.publication__text-strong #{comment.article.title}
+            //- p.publication__text-strong #{comment.article.title}
             button.publication__button.button.button--close-item(type='button')
               span.visually-hidden Закрыть строку списка
