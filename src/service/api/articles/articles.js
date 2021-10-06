@@ -12,10 +12,15 @@ module.exports = (app, articleService, commentService) => {
   app.use(`/articles`, route);
 
   route.get(`/`, async (req, res) => {
-    const {comments} = req.query;
-    const articles = await articleService.findAll(comments);
+    const {offset, limit, comments} = req.query;
+    let result;
+    if (limit || offset) {
+      result = await articleService.findPage({comments, limit, offset});
+    } else {
+      result = await articleService.findAll(comments);
+    }
 
-    return res.status(HttpCode.OK).json(articles);
+    res.status(HttpCode.OK).json(result);
   });
 
   route.get(`/:articleId`, articleExist(articleService), (req, res) => {
