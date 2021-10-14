@@ -27,8 +27,8 @@ class API {
     return this._load(`/articles/${id}`, {params: {comments}});
   }
 
-  getArticles({comments}) {
-    return this._load(`/articles`, {params: {comments}});
+  getArticles({offset, limit, comments}) {
+    return this._load(`/articles`, {params: {offset, limit, comments}});
   }
 
   getCategories(count) {
