@@ -2,12 +2,13 @@
 
 const path = require(`path`);
 const express = require(`express`);
-const {DEFAULT_SERVER_PORT, PUBLIC_DIR} = require(`./constants`);
+const {DEFAULT_SERVER_PORT, PUBLIC_DIR, UPLOAD_DIR} = require(`./constants`);
 const {articlesRoutes, categoriesRoutes, mainRoutes, myRoutes} = require(`./routes`);
 
 const app = express();
 
 app.use(express.static(path.resolve(__dirname, PUBLIC_DIR)));
+app.use(express.static(path.resolve(__dirname, UPLOAD_DIR)));
 
 app.set(`views`, path.resolve(__dirname, `templates`));
 app.set(`view engine`, `pug`);
