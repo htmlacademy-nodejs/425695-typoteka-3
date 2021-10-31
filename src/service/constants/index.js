@@ -29,7 +29,7 @@ const USER_ARGV_INDEX = 2;
 
 const currentDate = new Date();
 const MONTHS_WITHIN_COUNT = 3;
-const CreatedDateMs = {
+const createdAtMs = {
   MAX: currentDate.getTime(),
   MIN: new Date(currentDate.setMonth(currentDate.getMonth() - MONTHS_WITHIN_COUNT)).getTime(),
 };
@@ -54,7 +54,7 @@ module.exports = {
   API_PREFIX,
   ANNOUNCE_MAX_COUNT,
   FULLTEXT_MAX_COUNT,
-  CreatedDateMs,
+  createdAtMs,
   DEFAULT_COMMAND,
   DEFAULT_COUNT,
   DEFAULT_PORT,

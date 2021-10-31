@@ -1,23 +1,28 @@
 'use strict';
 const express = require(`express`);
 const request = require(`supertest`);
+const Sequelize = require(`sequelize`);
 
+const initDB = require(`../../lib/init-db`);
 const {HttpCode} = require(`../../constants`);
 const search = require(`./search`);
 const DataService = require(`../../data-service/search`);
-const {mockData} = require(`./mockData`);
+const {mockArticles, mockCategories} = require(`./mockData`);
 
-const createAPI = () => {
-  const app = express();
-  app.use(express.json());
-  search(app, new DataService(mockData));
-  return app;
-};
+const mockDB = new Sequelize(`sqlite::memory:`, {logging: false});
+
+
+const app = express();
+app.use(express.json());
+
+beforeAll(async () => {
+  await initDB(mockDB, {categories: mockCategories, articles: mockArticles});
+  search(app, new DataService(mockDB));
+});
 
 describe(`API returns article based on search query`, () => {
 
   test(`Status code 200`, async () => {
-    const app = createAPI();
     const response = await request(app)
       .get(`/search`)
       .query({query: `Что такое золотое сечение`});
@@ -26,7 +31,6 @@ describe(`API returns article based on search query`, () => {
   });
 
   test(`1 article found`, async () => {
-    const app = createAPI();
     const response = await request(app)
       .get(`/search`)
       .query({query: `Что такое золотое сечение`});
@@ -34,19 +38,16 @@ describe(`API returns article based on search query`, () => {
     expect(response.body.length).toBe(1);
   });
 
-  test(`Article has correct id`, async () => {
-    const app = createAPI();
+  test(`Article has correct title`, async () => {
     const response = await request(app)
       .get(`/search`)
-      .query({query: `Что такое золотое сечение`});
+      .query({query: `Что такое золотое сечение.`});
 
-    expect(response.body[0].id).toBe(`0Xfnhn`);
+    expect(response.body[0].title).toBe(`Что такое золотое сечение.`);
   });
 });
 
 test(`API returns code 404 if nothing is found`, async () => {
-  const app = createAPI();
-
   await request(app)
       .get(`/search`)
       .query({
@@ -56,8 +57,6 @@ test(`API returns code 404 if nothing is found`, async () => {
 });
 
 test(`API returns 400 when query string is absent`, async () => {
-  const app = createAPI();
-
   await request(app)
       .get(`/search`)
       .expect(HttpCode.BAD_REQUEST);

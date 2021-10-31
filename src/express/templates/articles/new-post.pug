@@ -33,8 +33,8 @@ block content
                 .new-publication__category-wrapper
                   each category, idx in categories
                     .new-publication__checkbox(class=`new-publication__checkbox--${idx}`)
-                      input(id=idx type="checkbox" name="categories" value=category)
-                      label(for=idx) #{category}
+                      input(id=category.id type="checkbox" name="categories" value=category.id)
+                      label(for=category.id) #{category.name}
                   a.new-publication__form-link.button.button--transparent(href='#') Добавить категорию
               .form__wrapper.form__wrapper--text
                 .form__field.form__field--publication-text
@@ -43,3 +43,4 @@ block content
                 .form__field.form__field--publication-text
                   label
                     textarea(rows='10' name='full-text' placeholder='Полный текст публикации')
+          +insertErrorMessage(validationMessages)
