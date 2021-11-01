@@ -2,7 +2,7 @@
 
 const express = require(`express`);
 const app = express();
-const {getLogger} = require(`../lib`);
+const {getLogger} = require(`../lib/logger`);
 
 const routes = require(`../api`);
 const {API_PREFIX, DEFAULT_PORT, HttpCode} = require(`../constants`);

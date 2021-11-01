@@ -2,7 +2,7 @@
 
 const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
-const {getLogger} = require(`../lib`);
+const {getLogger} = require(`../lib/logger`);
 
 const {
   ANNOUNCE_MAX_COUNT,

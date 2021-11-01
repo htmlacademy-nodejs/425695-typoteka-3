@@ -2,9 +2,10 @@
 
 const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
-const {getLogger} = require(`../lib`);
+const {getLogger} = require(`../lib/logger`);
 const sequelize = require(`../lib/sequelize`);
 const initDatabase = require(`../lib/init-db`);
+const passwordUtils = require(`../lib/password`);
 
 const {
   ANNOUNCE_MAX_COUNT,
@@ -89,15 +90,18 @@ module.exports = {
     const pictures = await readContent(FILE_PICTURES_PATH);
     const sentences = await readContent(FILE_SENTENCES_PATH);
     const titles = await readContent(FILE_TITLES_PATH);
+
     const users = [
       {
         name: `Иван Иванов`,
         email: `ivanov@example.com`,
+        passwordHash: await passwordUtils.hash(`ivanov`),
         avatar: `avatar01.jpg`
       },
       {
         name: `Пётр Петров`,
         email: `petrov@example.com`,
+        passwordHash: await passwordUtils.hash(`petrov`),
         avatar: `avatar02.jpg`
       }
     ];

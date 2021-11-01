@@ -17,6 +17,13 @@ class API {
     return response.data;
   }
 
+  async createUser(data) {
+    return this._load(`/user`, {
+      method: HttpMethod.POST,
+      data
+    });
+  }
+
   async createArticle(data) {
     return this._load(`/articles`, {
       method: HttpMethod.POST,
