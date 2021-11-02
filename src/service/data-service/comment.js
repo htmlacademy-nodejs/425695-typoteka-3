@@ -1,8 +1,11 @@
 'use strict';
 
+const Aliase = require(`../models/aliase`);
+
 class CommentService {
   constructor(sequelize) {
     this._Comment = sequelize.models.Comment;
+    this._User = sequelize.models.User;
   }
 
   async create(articleId, comment) {
@@ -21,6 +24,15 @@ class CommentService {
 
   findAll(articleId) {
     return this._Comment.findAll({
+      include: [
+        {
+          model: this._User,
+          as: Aliase.USER,
+          attributes: {
+            exclude: [`passwordHash`]
+          }
+        }
+      ],
       where: {articleId},
       raw: true
     });

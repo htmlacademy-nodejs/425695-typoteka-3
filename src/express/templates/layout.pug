@@ -25,7 +25,7 @@ body
   mixin insertErrorMessage(messages)
     if messages
       each message in messages
-        .server-error= message
+        li.form__error= message
   mixin date(dateValue)
     | #{new Date(dateValue).toLocaleDateString(_, {hour: 'numeric', minute: 'numeric'})}
   mixin pagination(page, totalPages, width, prefix)
