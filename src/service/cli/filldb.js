@@ -96,13 +96,13 @@ module.exports = {
         name: `Иван Иванов`,
         email: `ivanov@example.com`,
         passwordHash: await passwordUtils.hash(`ivanov`),
-        avatar: `avatar01.jpg`
+        avatar: `avatar-1.png`
       },
       {
         name: `Пётр Петров`,
         email: `petrov@example.com`,
         passwordHash: await passwordUtils.hash(`petrov`),
-        avatar: `avatar02.jpg`
+        avatar: `avatar-2.png`
       }
     ];
 

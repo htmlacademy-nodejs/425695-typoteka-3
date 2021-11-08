@@ -1,19 +1,23 @@
 'use strict';
+const passwordUtils = require(`../../lib/password`);
 
-const mockUsers = [
-  {
-    name: `Иван Иванов`,
-    email: `ivanov@example.com`,
-    passwordHash: `passwordHashivanov`,
-    avatar: `avatar01.jpg`
-  },
-  {
-    name: `Пётр Петров`,
-    email: `petrov@example.com`,
-    passwordHash: `passwordHashpetrov`,
-    avatar: `avatar02.jpg`
-  }
-];
+async function getMockUsers() {
+  return [
+    {
+      name: `Иван Иванов`,
+      email: `ivanov@example.com`,
+      passwordHash: await passwordUtils.hash(`ivanov`),
+      avatar: `avatar01.jpg`
+    },
+    {
+      name: `Пётр Петров`,
+      email: `petrov@example.com`,
+      passwordHash: await passwordUtils.hash(`petrov`),
+      avatar: `avatar02.jpg`
+    }
+  ];
+}
+
 const mockCategories = [
   `Разное`, `Без рамки`, `Музыка`, `IT`, `За жизнь`
 ];
@@ -41,4 +45,4 @@ const mockArticles = [{
   "fullText": `Собрать камни бесконечности легко, если вы прирожденный герой. Простые ежедневные упражнения помогут достичь успеха. Освоить вёрстку несложно. Возьмите книгу новую книгу и закрепите все упражнения на практике. Вы можете достичь всего. Стоит только немного постараться и запастись книгами. Как начать действовать? Для начала просто соберитесь. Рок-музыка всегда ассоциировалась с протестами. Так ли это на самом деле? Программировать не настолько сложно, как об этом говорят. Отправляю исключительно Почтой России. Такая только у меня и у Майкла Джексона. Альбом стал настоящим открытием года.`,
 }];
 
-module.exports = {mockArticles, mockCategories, mockUsers};
+module.exports = {mockArticles, mockCategories, getMockUsers};
