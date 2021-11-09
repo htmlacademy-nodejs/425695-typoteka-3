@@ -24,6 +24,13 @@ class API {
     });
   }
 
+  async auth(email, password) {
+    return this._load(`/user/auth`, {
+      method: HttpMethod.POST,
+      data: {email, password}
+    });
+  }
+
   async createArticle(data) {
     return this._load(`/articles`, {
       method: HttpMethod.POST,
