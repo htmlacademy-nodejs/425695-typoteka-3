@@ -1,23 +1,24 @@
 'use strict';
 
-const {Router} = require(`express`);
-const {HttpCode} = require(`../../constants`);
+const {Router} = require('express');
 
-const {userValidator} = require(`../../middlewares`);
+const {HttpCode} = require('../../constants');
 
-const passwordUtils = require(`../../lib/password`);
+const {userValidator} = require('../../middlewares');
+
+const passwordUtils = require('../../lib/password');
 
 const route = new Router();
 
 const ErrorAuthMessage = {
-  EMAIL: `Электронный адрес не существует`,
-  PASSWORD: `Неверный пароль`
+  EMAIL: 'Электронный адрес не существует',
+  PASSWORD: 'Неверный пароль'
 };
 
 module.exports = (app, service) => {
-  app.use(`/user`, route);
+  app.use('/user', route);
 
-  route.post(`/`, userValidator(service), async (req, res) => {
+  route.post('/', userValidator(service), async (req, res) => {
     const data = req.body;
 
     data.passwordHash = await passwordUtils.hash(data.password);
@@ -30,7 +31,7 @@ module.exports = (app, service) => {
       .json(result);
   });
 
-  route.post(`/auth`, async (req, res) => {
+  route.post('/auth', async (req, res) => {
     const {email, password} = req.body;
     const user = await service.findByEmail(email);
 

@@ -1,20 +1,21 @@
 'use strict';
 
-const express = require(`express`);
+const express = require('express');
+
 const app = express();
-const {getLogger} = require(`../lib/logger`);
+const {getLogger} = require('../lib/logger');
 
-const routes = require(`../api`);
-const {API_PREFIX, DEFAULT_PORT, HttpCode} = require(`../constants`);
+const routes = require('../api');
+const {API_PREFIX, DEFAULT_PORT, HttpCode} = require('../constants');
 
-const logger = getLogger({name: `api`});
+const logger = getLogger({name: 'api'});
 
 app.use(express.json());
 
 app.use(API_PREFIX, routes);
 
 app.use((req, res) => {
-  res.status(HttpCode.NOT_FOUND).send(`Not found`);
+  res.status(HttpCode.NOT_FOUND).send('Not found');
   logger.error(`Route not found: ${req.url}`);
 });
 
@@ -24,7 +25,7 @@ app.use((err, _req, _res, _next) => {
 
 app.use((req, res, next) => {
   logger.debug(`Request on route ${req.url}`);
-  res.on(`finish`, () => {
+  res.on('finish', () => {
     logger.info(`Response status code ${res.statusCode}`);
   });
   next();
@@ -32,7 +33,7 @@ app.use((req, res, next) => {
 
 
 module.exports = {
-  name: `--server`,
+  name: '--server',
   run(args) {
     const [customPort] = args;
     const port = Number.parseInt(customPort, 10) || DEFAULT_PORT;

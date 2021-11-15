@@ -1,11 +1,13 @@
 'use strict';
 
-const fs = require(`fs`).promises;
-const chalk = require(`chalk`);
-const {getLogger} = require(`../lib/logger`);
-const sequelize = require(`../lib/sequelize`);
-const initDatabase = require(`../lib/init-db`);
-const passwordUtils = require(`../lib/password`);
+const fs = require('fs').promises;
+
+const chalk = require('chalk');
+
+const {getLogger} = require('../lib/logger');
+const sequelize = require('../lib/sequelize');
+const initDatabase = require('../lib/init-db');
+const passwordUtils = require('../lib/password');
 
 const {
   ANNOUNCE_MAX_COUNT,
@@ -17,20 +19,20 @@ const {
   FILE_PICTURES_PATH,
   FILE_TITLES_PATH,
   MAX_COMMENTS,
-} = require(`../constants`);
+} = require('../constants');
 const {
   getRandomInt,
   shuffle,
-} = require(`../utils`);
+} = require('../utils');
 
-const logger = getLogger({name: `filldb`});
+const logger = getLogger({name: 'filldb'});
 
 const generateComments = (count, comments, users) => (
   Array(count).fill({}).map(() => ({
     user: users[getRandomInt(0, users.length - 1)].email,
     text: shuffle(comments)
       .slice(0, getRandomInt(1, 3))
-      .join(` `)
+      .join(' ')
   }))
 );
 
@@ -51,8 +53,8 @@ const getRandomSubarray = (items) => {
 const generateArticles = (count, titles, categories, sentences, comments, pictures, users) => (
   Array(count).fill({}).map(() => {
     return {
-      announce: shuffle(sentences).slice(1, ANNOUNCE_MAX_COUNT).join(` `),
-      fullText: shuffle(sentences).slice(1, FULLTEXT_MAX_COUNT).join(` `),
+      announce: shuffle(sentences).slice(1, ANNOUNCE_MAX_COUNT).join(' '),
+      fullText: shuffle(sentences).slice(1, FULLTEXT_MAX_COUNT).join(' '),
       picture: pictures[getRandomInt(1, pictures.length - 1)],
       user: users[getRandomInt(0, users.length - 1)].email,
       categories: getRandomSubarray(categories),
@@ -64,9 +66,9 @@ const generateArticles = (count, titles, categories, sentences, comments, pictur
 
 const readContent = async (filePath) => {
   try {
-    const content = await fs.readFile(filePath, `utf8`);
+    const content = await fs.readFile(filePath, 'utf8');
 
-    return content.split(`\n`).filter(Boolean);
+    return content.split('\n').filter(Boolean);
   } catch (err) {
     logger.error(chalk.red(err));
     return [];
@@ -74,16 +76,16 @@ const readContent = async (filePath) => {
 };
 
 module.exports = {
-  name: `--filldb`,
+  name: '--filldb',
   async run(args) {
     try {
-      logger.info(`Trying to connect to database...`);
+      logger.info('Trying to connect to database...');
       await sequelize.authenticate();
     } catch (err) {
       logger.error(`An error occured: ${err.message}`);
       process.exit(1);
     }
-    logger.info(`Connection to database established`);
+    logger.info('Connection to database established');
 
     const categories = await readContent(FILE_CATEGORIES_PATH);
     const comments = await readContent(FILE_COMMENTS_PATH);
@@ -93,16 +95,16 @@ module.exports = {
 
     const users = [
       {
-        name: `Иван Иванов`,
-        email: `ivanov@example.com`,
-        passwordHash: await passwordUtils.hash(`ivanov`),
-        avatar: `avatar-1.png`
+        name: 'Иван Иванов',
+        email: 'ivanov@example.com',
+        passwordHash: await passwordUtils.hash('ivanov'),
+        avatar: 'avatar-1.png'
       },
       {
-        name: `Пётр Петров`,
-        email: `petrov@example.com`,
-        passwordHash: await passwordUtils.hash(`petrov`),
-        avatar: `avatar-2.png`
+        name: 'Пётр Петров',
+        email: 'petrov@example.com',
+        passwordHash: await passwordUtils.hash('petrov'),
+        avatar: 'avatar-2.png'
       }
     ];
 

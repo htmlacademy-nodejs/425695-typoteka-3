@@ -1,15 +1,16 @@
 'use strict';
 
-const Joi = require(`joi`);
-const {HttpCode} = require(`../constants`);
+const Joi = require('joi');
+
+const {HttpCode} = require('../constants');
 
 const ErrorRegisterMessage = {
-  NAME: `Имя содержит некорректные символы`,
-  EMAIL: `Некорректный электронный адрес`,
-  EMAIL_EXIST: `Электронный адрес уже используется`,
-  PASSWORD: `Пароль содержит меньше 6-ти символов`,
-  PASSWORD_REPEATED: `Пароли не совпадают`,
-  AVATAR: `Изображение не выбрано или тип изображения не поддерживается`
+  NAME: 'Имя содержит некорректные символы',
+  EMAIL: 'Некорректный электронный адрес',
+  EMAIL_EXIST: 'Электронный адрес уже используется',
+  PASSWORD: 'Пароль содержит меньше 6-ти символов',
+  PASSWORD_REPEATED: 'Пароли не совпадают',
+  AVATAR: 'Изображение не выбрано или тип изображения не поддерживается'
 };
 
 const schema = Joi.object({
@@ -22,7 +23,7 @@ const schema = Joi.object({
   password: Joi.string().min(6).required().messages({
     'string.min': ErrorRegisterMessage.PASSWORD
   }),
-  passwordRepeated: Joi.string().required().valid(Joi.ref(`password`)).required().messages({
+  passwordRepeated: Joi.string().required().valid(Joi.ref('password')).required().messages({
     'any.only': ErrorRegisterMessage.PASSWORD_REPEATED
   }),
   avatar: Joi.string().required().messages({
@@ -36,7 +37,7 @@ module.exports = (service) => async (req, res, next) => {
 
   if (error) {
     return res.status(HttpCode.BAD_REQUEST)
-      .send(error.details.map((err) => err.message).join(`\n`));
+      .send(error.details.map((err) => err.message).join('\n'));
   }
 
   const userByEmail = await service.findByEmail(req.body.email);

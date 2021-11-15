@@ -1,7 +1,8 @@
 'use strict';
 
-const axios = require(`axios`);
-const {HttpMethod} = require(`./constants`);
+const axios = require('axios');
+
+const {HttpMethod} = require('./constants');
 
 class API {
 
@@ -18,21 +19,21 @@ class API {
   }
 
   async createUser(data) {
-    return this._load(`/user`, {
+    return this._load('/user', {
       method: HttpMethod.POST,
       data
     });
   }
 
   async auth(email, password) {
-    return this._load(`/user/auth`, {
+    return this._load('/user/auth', {
       method: HttpMethod.POST,
       data: {email, password}
     });
   }
 
   async createArticle(data) {
-    return this._load(`/articles`, {
+    return this._load('/articles', {
       method: HttpMethod.POST,
       data
     });
@@ -57,15 +58,15 @@ class API {
   }
 
   getArticles({offset, limit, comments}) {
-    return this._load(`/articles`, {params: {offset, limit, comments}});
+    return this._load('/articles', {params: {offset, limit, comments}});
   }
 
   getCategories(count) {
-    return this._load(`/categories`, {params: {count}});
+    return this._load('/categories', {params: {count}});
   }
 
   search(query) {
-    return this._load(`/search`, {params: {query}});
+    return this._load('/search', {params: {query}});
   }
 }
 

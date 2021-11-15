@@ -1,16 +1,17 @@
 'use strict';
-const express = require(`express`);
-const request = require(`supertest`);
-const Sequelize = require(`sequelize`);
-
-const initDB = require(`../../lib/init-db`);
-const {HttpCode} = require(`../../constants`);
-const categories = require(`./categories`);
-const DataService = require(`../../data-service/category`);
-const {mockArticles, mockCategories, mockUsers} = require(`./mockData`);
+const express = require('express');
+const request = require('supertest');
+const Sequelize = require('sequelize');
 
 
-const mockDB = new Sequelize(`sqlite::memory:`, {logging: false});
+const initDB = require('../../lib/init-db');
+const {HttpCode} = require('../../constants');
+const DataService = require('../../data-service/category');
+const {mockArticles, mockCategories, mockUsers} = require('./mockData');
+const categories = require('./categories');
+
+
+const mockDB = new Sequelize('sqlite::memory:', {logging: false});
 
 const app = express();
 app.use(express.json());
@@ -20,24 +21,24 @@ beforeAll(async () => {
   categories(app, new DataService(mockDB));
 });
 
-describe(`API returns category list`, () => {
+describe('API returns category list', () => {
 
-  test(`Status code 200`, async () => {
-    const response = await request(app).get(`/categories`);
+  test('Status code 200', async () => {
+    const response = await request(app).get('/categories');
 
     expect(response.statusCode).toBe(HttpCode.OK);
   });
 
-  test(`Returns list of 5 categories`, async () => {
-    const response = await request(app).get(`/categories`);
+  test('Returns list of 5 categories', async () => {
+    const response = await request(app).get('/categories');
 
     expect(response.body.length).toBe(5);
   });
 
-  test(`Category names are "Разное", "Без рамки", "Музыка", "IT", "За жизнь", "Деревья", "Железо", "Кино"`, async () => {
-    const response = await request(app).get(`/categories`);
+  test('Category names are "Разное", "Без рамки", "Музыка", "IT", "За жизнь", "Деревья", "Железо", "Кино"', async () => {
+    const response = await request(app).get('/categories');
 
     expect(response.body.map((it) => it.name)).toEqual(
-        expect.arrayContaining([`Разное`, `Без рамки`, `Музыка`, `IT`, `За жизнь`]));
+        expect.arrayContaining(['Разное', 'Без рамки', 'Музыка', 'IT', 'За жизнь']));
   });
 });

@@ -1,10 +1,10 @@
 'use strict';
 
-const ArticleService = require(`./article`);
-const CategoryService = require(`./category`);
-const CommentService = require(`./comment`);
-const SearchService = require(`./search`);
-const UserService = require(`./user`);
+const ArticleService = require('./article');
+const CategoryService = require('./category');
+const CommentService = require('./comment');
+const SearchService = require('./search');
+const UserService = require('./user');
 
 module.exports = {
   ArticleService,

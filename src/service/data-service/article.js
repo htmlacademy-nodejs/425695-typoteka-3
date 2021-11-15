@@ -1,6 +1,6 @@
 'use strict';
 
-const Aliase = require(`../models/aliase`);
+const Aliase = require('../models/aliase');
 
 class ArticleService {
   constructor(sequelize) {
@@ -29,7 +29,7 @@ class ArticleService {
         model: this._User,
         as: Aliase.USER,
         attributes: {
-          exclude: [`passwordHash`]
+          exclude: ['passwordHash']
         }
       }];
     if (needComments) {
@@ -41,7 +41,7 @@ class ArticleService {
             model: this._User,
             as: Aliase.USER,
             attributes: {
-              exclude: [`passwordHash`]
+              exclude: ['passwordHash']
             }
           }
         ]
@@ -51,7 +51,7 @@ class ArticleService {
     const articles = await this._Article.findAll({
       include,
       order: [
-        [`createdAt`, `DESC`]
+        ['createdAt', 'DESC']
       ]
     });
 
@@ -64,7 +64,7 @@ class ArticleService {
         model: this._User,
         as: Aliase.USER,
         attributes: {
-          exclude: [`passwordHash`]
+          exclude: ['passwordHash']
         }
       }];
 
@@ -77,7 +77,7 @@ class ArticleService {
             model: this._User,
             as: Aliase.USER,
             attributes: {
-              exclude: [`passwordHash`]
+              exclude: ['passwordHash']
             }
           }
         ]
@@ -104,7 +104,7 @@ class ArticleService {
       offset,
       include,
       order: [
-        [`createdAt`, `DESC`]
+        ['createdAt', 'DESC']
       ],
       distinct: true
     });

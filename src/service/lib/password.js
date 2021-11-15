@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-const {hash, hashSync, compare} = require(`bcrypt`);
+const {hash, hashSync, compare} = require('bcrypt');
 
 const SALT_ROUNDS = 10;
 

@@ -1,16 +1,16 @@
 'use strict';
+const path = require('path');
+const express = require('express');
+const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const sequelize = require('../service/lib/sequelize');
 
-const path = require(`path`);
-const express = require(`express`);
-const session = require(`express-session`);
-const sequelize = require(`../service/lib/sequelize`);
-const SequelizeStore = require(`connect-session-sequelize`)(session.Store);
 const {SESSION_SECRET} = process.env;
 if (!SESSION_SECRET) {
-  throw new Error(`SESSION_SECRET environment variable is not defined`);
+  throw new Error('SESSION_SECRET environment variable is not defined');
 }
-const {DEFAULT_SERVER_PORT, PUBLIC_DIR, UPLOAD_DIR} = require(`./constants`);
-const {articlesRoutes, categoriesRoutes, mainRoutes, myRoutes} = require(`./routes`);
+const {DEFAULT_SERVER_PORT, PUBLIC_DIR, UPLOAD_DIR} = require('./constants');
+const {articlesRoutes, categoriesRoutes, mainRoutes, myRoutes} = require('./routes');
 
 const mySessionStore = new SequelizeStore({
   db: sequelize,
@@ -33,12 +33,12 @@ app.use(session({
 app.use(express.static(path.resolve(__dirname, PUBLIC_DIR)));
 app.use(express.static(path.resolve(__dirname, UPLOAD_DIR)));
 
-app.set(`views`, path.resolve(__dirname, `templates`));
-app.set(`view engine`, `pug`);
+app.set('views', path.resolve(__dirname, 'templates'));
+app.set('view engine', 'pug');
 
-app.use(`/`, mainRoutes);
-app.use(`/categories`, categoriesRoutes);
-app.use(`/my`, myRoutes);
-app.use(`/articles`, articlesRoutes);
+app.use('/', mainRoutes);
+app.use('/categories', categoriesRoutes);
+app.use('/my', myRoutes);
+app.use('/articles', articlesRoutes);
 
 app.listen(DEFAULT_SERVER_PORT);
