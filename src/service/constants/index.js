@@ -1,12 +1,12 @@
 'use strict';
 
-const API_PREFIX = `/api`;
+const API_PREFIX = '/api';
 const Env = {
-  DEVELOPMENT: `development`,
-  PRODUCTION: `production`
+  DEVELOPMENT: 'development',
+  PRODUCTION: 'production'
 };
 
-const DEFAULT_COMMAND = `--help`;
+const DEFAULT_COMMAND = '--help';
 const DEFAULT_COUNT = 3;
 const DEFAULT_PORT = 3000;
 const ExitCode = {
@@ -24,7 +24,7 @@ const HttpCode = {
   UNAUTHORIZED: 401,
 };
 
-const FILE_MOCKS_NAME = `mocks.json`;
+const FILE_MOCKS_NAME = 'mocks.json';
 const USER_ARGV_INDEX = 2;
 
 const currentDate = new Date();
@@ -37,13 +37,13 @@ const createdAtMs = {
 const ANNOUNCE_MAX_COUNT = 1;
 const FULLTEXT_MAX_COUNT = 3;
 
-const DIR_LOG = `./src/service/logs`;
-const FILE_SENTENCES_PATH = `./data/sentences.txt`;
-const FILE_TITLES_PATH = `./data/titles.txt`;
-const FILE_CATEGORIES_PATH = `./data/categories.txt`;
-const FILE_COMMENTS_PATH = `./data/comments.txt`;
-const FILE_FILL_DB_NAME = `./queries/fill-db.sql`;
-const FILE_PICTURES_PATH = `./data/pictures.txt`;
+const DIR_LOG = './src/service/logs';
+const FILE_SENTENCES_PATH = './data/sentences.txt';
+const FILE_TITLES_PATH = './data/titles.txt';
+const FILE_CATEGORIES_PATH = './data/categories.txt';
+const FILE_COMMENTS_PATH = './data/comments.txt';
+const FILE_FILL_DB_NAME = './queries/fill-db.sql';
+const FILE_PICTURES_PATH = './data/pictures.txt';
 const FILE_MOCKS_PATH = `./${FILE_MOCKS_NAME}`;
 const FILE_LOG = `${DIR_LOG}/api.log`;
 

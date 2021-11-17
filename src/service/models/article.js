@@ -1,6 +1,6 @@
 'use strict';
 
-const {DataTypes, Model} = require(`sequelize`);
+const {DataTypes, Model} = require('sequelize');
 
 class Article extends Model {}
 
@@ -22,8 +22,8 @@ const define = (sequelize) => Article.init({
   },
 }, {
   sequelize,
-  modelName: `Article`,
-  tableName: `articles`
+  modelName: 'Article',
+  tableName: 'articles'
 });
 
 module.exports = define;

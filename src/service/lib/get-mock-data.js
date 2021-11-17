@@ -1,10 +1,12 @@
 'use strict';
 
-const fs = require(`fs`).promises;
-const {FILE_MOCKS_PATH} = require(`../constants`);
-const {getLogger} = require(`./logger`);
+const fs = require('fs').promises;
 
-const logger = getLogger({name: `get.mock.data`});
+const {FILE_MOCKS_PATH} = require('../constants');
+const {getLogger} = require('./logger');
+
+
+const logger = getLogger({name: 'get.mock.data'});
 
 let data = [];
 

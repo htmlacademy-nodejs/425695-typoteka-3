@@ -1,7 +1,8 @@
 'use strict';
 
-const Joi = require(`joi`);
-const {HttpCode} = require(`../constants`);
+const Joi = require('joi');
+
+const {HttpCode} = require('../constants');
 
 const schema = Joi.object({
   articleId: Joi.number().integer().min(1),
@@ -15,7 +16,7 @@ module.exports = (req, res, next) => {
 
   if (error) {
     return res.status(HttpCode.BAD_REQUEST)
-      .send(error.details.map((err) => err.message).join(`\n`));
+      .send(error.details.map((err) => err.message).join('\n'));
   }
   return next();
 };

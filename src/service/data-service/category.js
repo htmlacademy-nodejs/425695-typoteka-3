@@ -1,7 +1,8 @@
 'use strict';
 
-const Sequelize = require(`sequelize`);
-const Aliase = require(`../models/aliase`);
+const Sequelize = require('sequelize');
+
+const Aliase = require('../models/aliase');
 
 class CategoryService {
   constructor(sequelize) {
@@ -13,17 +14,17 @@ class CategoryService {
     if (needCount) {
       const result = await this._Category.findAll({
         attributes: [
-          `id`,
-          `name`,
+          'id',
+          'name',
           [
             Sequelize.fn(
-                `COUNT`,
-                `*`
+                'COUNT',
+                '*'
             ),
-            `count`
+            'count'
           ]
         ],
-        group: [Sequelize.col(`Category.id`)],
+        group: [Sequelize.col('Category.id')],
         include: [{
           model: this._ArticleCategory,
           as: Aliase.ARTICLE_CATEGORIES,

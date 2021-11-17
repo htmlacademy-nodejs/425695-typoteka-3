@@ -1,8 +1,10 @@
 'use strict';
 
-const fs = require(`fs`).promises;
-const chalk = require(`chalk`);
-const {getLogger} = require(`../lib/logger`);
+const fs = require('fs').promises;
+
+const chalk = require('chalk');
+
+const {getLogger} = require('../lib/logger');
 
 const {
   ANNOUNCE_MAX_COUNT,
@@ -15,13 +17,13 @@ const {
   FILE_PICTURES_PATH,
   FILE_TITLES_PATH,
   MAX_COMMENTS,
-} = require(`../constants`);
+} = require('../constants');
 const {
   getRandomInt,
   shuffle,
-} = require(`../utils`);
+} = require('../utils');
 
-const logger = getLogger({name: `fill`});
+const logger = getLogger({name: 'fill'});
 
 function getUserId(userCount) {
   return getRandomInt(1, userCount);
@@ -33,7 +35,7 @@ const generateComments = (articleId, count, comments, userCount) => (
     articleId,
     text: shuffle(comments)
       .slice(0, getRandomInt(1, 3))
-      .join(` `),
+      .join(' '),
   }))
 );
 
@@ -42,10 +44,10 @@ const generateArticles = (count, categoryCount, sentences, titles, comments, pic
     const articleId = articleIdx + 1;
 
     return {
-      announce: shuffle(sentences).slice(1, ANNOUNCE_MAX_COUNT).join(` `),
+      announce: shuffle(sentences).slice(1, ANNOUNCE_MAX_COUNT).join(' '),
       category: [getRandomInt(1, categoryCount)],
       comments: generateComments(articleId, getRandomInt(1, MAX_COMMENTS), comments, userCount),
-      fullText: shuffle(sentences).slice(1, getRandomInt(1, sentences.length - 1)).join(` `),
+      fullText: shuffle(sentences).slice(1, getRandomInt(1, sentences.length - 1)).join(' '),
       id: articleId,
       picture: pictures[getRandomInt(1, pictures.length - 1)],
       title: titles[getRandomInt(0, titles.length - 1)],
@@ -56,26 +58,26 @@ const generateArticles = (count, categoryCount, sentences, titles, comments, pic
 
 const users = [
   {
-    email: `ivanov@example.com`,
-    passwordHash: `5f4dcc3b5aa765d61d8327deb882cf99`,
-    firstName: `Иван`,
-    lastName: `Иванов`,
-    avatar: `avatar1.jpg`
+    email: 'ivanov@example.com',
+    passwordHash: '5f4dcc3b5aa765d61d8327deb882cf99',
+    firstName: 'Иван',
+    lastName: 'Иванов',
+    avatar: 'avatar1.jpg'
   },
   {
-    email: `petrov@example.com`,
-    passwordHash: `5f4dcc3b5aa765d61d8327deb882cf99`,
-    firstName: `Пётр`,
-    lastName: `Петров`,
-    avatar: `avatar2.jpg`
+    email: 'petrov@example.com',
+    passwordHash: '5f4dcc3b5aa765d61d8327deb882cf99',
+    firstName: 'Пётр',
+    lastName: 'Петров',
+    avatar: 'avatar2.jpg'
   }
 ];
 
 const readContent = async (filePath) => {
   try {
-    const content = await fs.readFile(filePath, `utf8`);
+    const content = await fs.readFile(filePath, 'utf8');
 
-    return content.split(`\n`).filter(Boolean);
+    return content.split('\n').filter(Boolean);
   } catch (err) {
     logger.error(chalk.red(err));
     return [];
@@ -83,7 +85,7 @@ const readContent = async (filePath) => {
 };
 
 module.exports = {
-  name: `--fill`,
+  name: '--fill',
   async run(args) {
     const categories = await readContent(FILE_CATEGORIES_PATH);
     const commentSentences = await readContent(FILE_COMMENTS_PATH);
@@ -95,7 +97,7 @@ module.exports = {
     const [count] = args;
     const countArticle = Number.parseInt(count, 10) || DEFAULT_COUNT;
     if (countArticle > 1000) {
-      logger.info(chalk.red(`Не больше 1000 публикаций.`));
+      logger.info(chalk.red('Не больше 1000 публикаций.'));
       process.exit(ExitCode.ERROR);
     }
 
@@ -103,15 +105,15 @@ module.exports = {
     const comments = articles.flatMap((article) => article.comments);
     const articleCategories = articles.map((article) => ({articleId: article.id, categoryId: article.category[0]}));
 
-    const categoryValues = categories.map((name, idx) => `(${idx + 1}, '${name}')`).join(`,\n\t`);
+    const categoryValues = categories.map((name, idx) => `(${idx + 1}, '${name}')`).join(',\n\t');
     const userValues = users.map(({email, passwordHash, firstName, lastName, avatar}, idx) =>
       `(${idx + 1}, '${email}', '${passwordHash}', '${firstName}', '${lastName}', '${avatar}')`
-    ).join(`,\n\t`);
+    ).join(',\n\t');
     const articleValues = articles.map(({id, title, announce, fullText, picture, userId}) =>
       `(${id}, '${title}', '${announce}', '${fullText}', '${picture}', ${userId})`
-    ).join(`,\n\t`);
-    const commentValues = comments.map(({text, userId, articleId}, idx) => `(${idx + 1}, ${articleId}, ${userId}, '${text}')`).join(`,\n\t`);
-    const articleCategoryValues = articleCategories.map(({articleId, categoryId}) => `(${articleId}, ${categoryId})`).join(`,\n\t`);
+    ).join(',\n\t');
+    const commentValues = comments.map(({text, userId, articleId}, idx) => `(${idx + 1}, ${articleId}, ${userId}, '${text}')`).join(',\n\t');
+    const articleCategoryValues = articleCategories.map(({articleId, categoryId}) => `(${articleId}, ${categoryId})`).join(',\n\t');
 
     const content = `
 INSERT INTO users(id, email, password_hash, first_name, last_name, avatar) VALUES
@@ -133,9 +135,9 @@ ALTER TABLE comments ENABLE TRIGGER ALL;`;
 
     try {
       await fs.writeFile(FILE_FILL_DB_NAME, content);
-      logger.info(chalk.green(`Operation success. File created.`));
+      logger.info(chalk.green('Operation success. File created.'));
     } catch (err) {
-      logger.error(chalk.red(`Can't write data to file...`));
+      logger.error(chalk.red('Can\'t write data to file...'));
     }
   }
 };

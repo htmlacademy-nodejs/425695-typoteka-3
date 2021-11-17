@@ -1,7 +1,8 @@
 'use strict';
 
-const {Op} = require(`sequelize`);
-const Aliase = require(`../models/aliase`);
+const {Op} = require('sequelize');
+
+const Aliase = require('../models/aliase');
 
 class SearchService {
   constructor(sequelize) {
@@ -21,11 +22,11 @@ class SearchService {
           model: this._User,
           as: Aliase.USER,
           attributes: {
-            exclude: [`passwordHash`]
+            exclude: ['passwordHash']
           }
         }],
       order: [
-        [`createdAt`, `DESC`]
+        ['createdAt', 'DESC']
       ]
     });
 

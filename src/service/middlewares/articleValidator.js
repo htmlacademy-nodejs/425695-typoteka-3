@@ -1,18 +1,19 @@
 'use strict';
-const Joi = require(`joi`);
-const {HttpCode} = require(`../constants`);
+const Joi = require('joi');
+
+const {HttpCode} = require('../constants');
 
 const ErrorOfferMessage = {
-  CATEGORIES: `Не выбрана ни одна категория статьи`,
-  TITLE_MIN: `Заголовок содержит меньше 10 символов`,
-  TITLE_MAX: `Заголовок не может содержать более 100 символов`,
-  ANNOUNCE_EMPTY: `Анонс отсутствует`,
-  ANNOUNCE_MIN: `Анонс содержит меньше 10 символов`,
-  ANNOUNCE_MAX: `Анонс не может содержать более 100 символов`,
-  FULL_TEXT_EMPTY: `Описание отсутствует`,
-  FULL_TEXT_MIN: `Описание содержит меньше 50 символов`,
-  FULL_TEXT_MAX: `Описание не может содержать более 1000 символов`,
-  PICTURE: `Изображение не выбрано или тип изображения не поддерживается`,
+  CATEGORIES: 'Не выбрана ни одна категория статьи',
+  TITLE_MIN: 'Заголовок содержит меньше 10 символов',
+  TITLE_MAX: 'Заголовок не может содержать более 100 символов',
+  ANNOUNCE_EMPTY: 'Анонс отсутствует',
+  ANNOUNCE_MIN: 'Анонс содержит меньше 10 символов',
+  ANNOUNCE_MAX: 'Анонс не может содержать более 100 символов',
+  FULL_TEXT_EMPTY: 'Описание отсутствует',
+  FULL_TEXT_MIN: 'Описание содержит меньше 50 символов',
+  FULL_TEXT_MAX: 'Описание не может содержать более 1000 символов',
+  PICTURE: 'Изображение не выбрано или тип изображения не поддерживается',
 };
 
 const schema = Joi.object({
@@ -46,7 +47,7 @@ module.exports = (req, res, next) => {
 
   if (error) {
     return res.status(HttpCode.BAD_REQUEST)
-      .send(error.details.map((err) => err.message).join(`\n`));
+      .send(error.details.map((err) => err.message).join('\n'));
   }
 
   return next();

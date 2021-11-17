@@ -1,6 +1,6 @@
 'use strict';
 
-const Aliase = require(`../models/aliase`);
+const Aliase = require('../models/aliase');
 
 class CommentService {
   constructor(sequelize) {
@@ -29,7 +29,7 @@ class CommentService {
           model: this._User,
           as: Aliase.USER,
           attributes: {
-            exclude: [`passwordHash`]
+            exclude: ['passwordHash']
           }
         }
       ],
