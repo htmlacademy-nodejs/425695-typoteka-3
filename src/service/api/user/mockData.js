@@ -26,7 +26,7 @@ const mockArticles = [{
   'categories': [
     'Разное', 'Без рамки',
   ],
-  'comments': [
+  'Comments': [
     {
       'user': 'petrov@example.com',
       'text': 'С чем связана продажа? Почему так дешёво? Неплохо, но дорого. А где блок питания?'

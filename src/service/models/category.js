@@ -12,7 +12,7 @@ const define = (sequelize) => Category.init({
 }, {
   sequelize,
   modelName: 'Category',
-  tableName: 'categories'
+  tableName: 'Categories'
 });
 
 module.exports = define;

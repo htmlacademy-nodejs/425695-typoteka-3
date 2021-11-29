@@ -34,8 +34,8 @@ const createdAtMs = {
   MIN: new Date(currentDate.setMonth(currentDate.getMonth() - MONTHS_WITHIN_COUNT)).getTime(),
 };
 
-const ANNOUNCE_MAX_COUNT = 1;
-const FULLTEXT_MAX_COUNT = 3;
+const ANNOUNCE_MAX_COUNT = 2;
+const FULLTEXT_MAX_COUNT = 4;
 
 const DIR_LOG = './src/service/logs';
 const FILE_SENTENCES_PATH = './data/sentences.txt';

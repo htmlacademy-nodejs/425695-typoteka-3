@@ -36,9 +36,7 @@ const schema = Joi.object({
     'string.min': ErrorOfferMessage.FULL_TEXT_MIN,
     'string.max': ErrorOfferMessage.FULL_TEXT_MAX
   }),
-  picture: Joi.string().required().messages({
-    'string.empty': ErrorOfferMessage.PICTURE
-  }),
+  picture: Joi.string().allow(null, '')
 });
 
 module.exports = (req, res, next) => {

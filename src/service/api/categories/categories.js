@@ -13,6 +13,7 @@ module.exports = (app, categoryService) => {
   route.get('/', async (req, res) => {
     const {count} = req.query;
     const categories = await categoryService.findAll(count);
+
     res.status(HttpCode.OK).json(categories);
   });
 };

@@ -3,7 +3,7 @@ extends ../layout.pug
 block content
   main
     section.search-page
-      .search-page__wrapper(class=(results && results.length === 0 ? `search-page__wrapper--empty` : ``))
+      .search-page__wrapper(class=(isNoMatches ? `search-page__wrapper--empty` : ``))
         h1 Поиск
         .search.search-page__form
           form(action="/search", method="get")
@@ -21,5 +21,5 @@ block content
                   b #{search}
                   | #{article.title.split(search)[1]}
 
-        if results && results.length === 0
+        if isNoMatches
           p.search-page__empty Ничего не нашлось

@@ -23,7 +23,7 @@ const define = (sequelize) => Article.init({
 }, {
   sequelize,
   modelName: 'Article',
-  tableName: 'articles'
+  tableName: 'Articles'
 });
 
 module.exports = define;

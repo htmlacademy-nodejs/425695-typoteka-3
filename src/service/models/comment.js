@@ -12,7 +12,7 @@ const define = (sequelize) => Comment.init({
 }, {
   sequelize,
   modelName: 'Comment',
-  tableName: 'comments'
+  tableName: 'Comments'
 });
 
 module.exports = define;
