@@ -19,7 +19,6 @@ myRouter.get('/', auth, csrfProtection, async (req, res) => {
 
 myRouter.post('/', auth, csrfProtection, async (req, res) => {
   const {id} = req.body;
-  delete req.body._csrf;
 
   try {
     await api.dropArticle(id);

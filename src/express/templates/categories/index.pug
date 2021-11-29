@@ -23,27 +23,5 @@ block content
                   span.visually-hidden Редактировать категорию
                 button.category__button.button.button--category(type=`submit`) Сохранить
                 if !category.count
-                  button.category__button.button.button--category(name=`drop`, value=`1`, type=`submit`) Удалить
-      //- ul.category__list
-      //-   li.category__list-item
-      //-     form(action='#' method='POST')
-      //-       input#modify-form-category-1(type='text' name='category-1' value='Жизнь и путешествия')
-      //-       label(for='modify-form-category-1')
-      //-         span.visually-hidden Редактировать категорию
-      //-       button.category__button.button.button--category(type='submit') Сохранить
-      //-       button.category__button.button.button--category(type='button') Удалить
+                  button.category__button.button.button--category(name=`drop`, value=category.id type=`submit`) Удалить
 
-
-
-//- block main
-//-   main.main-page.main-page--padding
-//-     section.main-page__category.category
-//-       h1.category__title Категории
-//-       +errorMessage(errors, `При ${affectedId ? `изменении категории ${affectedId}` : `добавлении категории`} произошли ошибки:`)
-//-       .category__add-form
-//-         form(action=`/categories`, method=`POST`)
-//-           input(name=`_csrf`, type=`hidden`, value=csrfToken)
-//-           input#add-form-add-category(type=`text`, name=`title`, minlength=MinValue.CATEGORY, maxlength=MaxValue.CATEGORY, placeholder=`Новая категория`, value=affectedTitle, required)
-//-           label(for=`add-form-add-category`)
-//-             span.visually-hidden Добавить категорию
-//-           button.category__button.button.button--category(type=`submit`) Добавить

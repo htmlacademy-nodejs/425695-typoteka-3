@@ -12,10 +12,11 @@ const {prepareErrors} = require('../utils');
 const csrfProtection = csrf();
 
 categoriesRouter.get('/', auth, csrfProtection, async (req, res) => {
+  const {user} = req.session;
   const [categories] = await Promise.all([
     api.getCategories({count: true}),
   ]);
-  res.render('categories', {categories, csrfToken: req.csrfToken()});
+  res.render('categories', {categories, user, csrfToken: req.csrfToken()});
 });
 
 categoriesRouter.post('/add', auth, csrfProtection, async (req, res) => {
@@ -34,10 +35,14 @@ categoriesRouter.post('/add', auth, csrfProtection, async (req, res) => {
 
 categoriesRouter.post('/:id', auth, csrfProtection, async (req, res) => {
   const {id} = req.params;
-  const {name} = req.body;
+  const {drop, name} = req.body;
 
   try {
-    await api.editCategory(id, {name});
+    if (drop) {
+      await api.dropCategory(id);
+    } else {
+      await api.editCategory(id, {name});
+    }
     res.redirect('/categories');
   } catch (errors) {
     const validationMessages = prepareErrors(errors);
@@ -45,6 +50,5 @@ categoriesRouter.post('/:id', auth, csrfProtection, async (req, res) => {
     res.render('categories', {categories, validationMessages, csrfToken: req.csrfToken()});
   }
 });
-
 
 module.exports = categoriesRouter;

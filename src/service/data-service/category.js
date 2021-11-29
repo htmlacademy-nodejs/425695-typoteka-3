@@ -9,6 +9,13 @@ class CategoryService {
     this._ArticleCategory = sequelize.models.ArticleCategory;
   }
 
+  async findOne(id) {
+    const category = await this._Category.findByPk(id);
+    if (category) {
+      return category.get({plain: true});
+    }
+    return category;
+  }
 
   async findAll(needCount) {
     if (needCount) {
@@ -16,7 +23,7 @@ class CategoryService {
         attributes: [
           'id',
           'name',
-          [this._sequelize.fn('COUNT', this._sequelize.col('Category.id')), 'count']
+          [this._sequelize.fn('COUNT', this._sequelize.col('ArticleCategories.CategoryId')), 'count']
         ],
         group: [this._sequelize.col('Category.id')],
         include: [{
@@ -25,8 +32,8 @@ class CategoryService {
           attributes: []
         }],
       });
-      console.log('!!!!!!!!!!!!!!!!result ', result);
-      return result.map((it) => it.get());
+
+      return result.map((it) => ({...it.get(), count: +it.get().count}));
     } else {
       return this._Category.findAll({raw: true});
     }
@@ -42,6 +49,13 @@ class CategoryService {
     });
 
     return Boolean(affectedRows);
+  }
+
+  async drop(id) {
+    const deletedRows = await this._Category.destroy({
+      where: {id}
+    });
+    return !!deletedRows;
   }
 }
 

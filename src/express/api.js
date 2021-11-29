@@ -57,6 +57,11 @@ class API {
       data
     });
   }
+  async dropCategory(id) {
+    return this._load(`/categories/${id}`, {
+      method: HttpMethod.DELETE
+    });
+  }
   async dropArticle(id) {
     return this._load(`/articles/${id}`, {
       method: HttpMethod.DELETE
