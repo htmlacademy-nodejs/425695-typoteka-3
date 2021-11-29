@@ -60,6 +60,7 @@ const generateArticles = (count, titles, categories, sentences, comments, pictur
       categories: getRandomSubarray(categories),
       Comments: generateComments(getRandomInt(1, MAX_COMMENTS), comments, users),
       title: titles[getRandomInt(0, titles.length - 1)],
+      publishedAt: new Date(),
     };
   })
 );

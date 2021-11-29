@@ -45,7 +45,18 @@ class API {
       data
     });
   }
-
+  async createCategory(data) {
+    return this._load('/categories', {
+      method: HttpMethod.POST,
+      data
+    });
+  }
+  async editCategory(id, data) {
+    return this._load(`/categories/${id}`, {
+      method: HttpMethod.PUT,
+      data
+    });
+  }
   async dropArticle(id) {
     return this._load(`/articles/${id}`, {
       method: HttpMethod.DELETE

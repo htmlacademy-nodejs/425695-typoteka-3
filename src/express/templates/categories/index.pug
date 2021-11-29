@@ -5,44 +5,45 @@ block content
     section.main-page__category.category
       h1.category__title Категории
       .category__add-form
-        form(action='#' method='POST')
+        form(action='/categories/add' method='POST')
+          input(name=`_csrf`, type=`hidden`, value=csrfToken)
           input#add-form-add-category(type='text' name='add-category' placeholder='Новая категория')
           label(for='add-form-add-category')
             span.visually-hidden Добавить категорию
           button.category__button.button.button--category(type='submit') Добавить
-      ul.category__list
-        li.category__list-item
-          form(action='#' method='POST')
-            input#modify-form-category-1(type='text' name='category-1' value='Жизнь и путешествия')
-            label(for='modify-form-category-1')
-              span.visually-hidden Редактировать категорию
-            button.category__button.button.button--category(type='submit') Сохранить
-            button.category__button.button.button--category(type='button') Удалить
-        li.category__list-item
-          form(action='#' method='POST')
-            input#modify-form-category-2(type='text' name='category-2' value='Путешествия')
-            label(for='modify-form-category-2')
-              span.visually-hidden Редактировать категорию
-            button.category__button.button.button--category(type='submit') Сохранить
-            button.category__button.button.button--category(type='button') Удалить
-        li.category__list-item
-          form(action='#' method='POST')
-            input#modify-form-category-3(type='text' name='category-3' value='Дизайн и программирование')
-            label(for='modify-form-category-3')
-              span.visually-hidden Редактировать категорию
-            button.category__button.button.button--category(type='submit') Сохранить
-            button.category__button.button.button--category(type='button') Удалить
-        li.category__list-item
-          form(action='#' method='POST')
-            input#modify-form-category-4(type='text' name='category-4' value='Другое')
-            label(for='modify-form-category-4')
-              span.visually-hidden Редактировать категорию
-            button.category__button.button.button--category(type='submit') Сохранить
-            button.category__button.button.button--category(type='button') Удалить
-        li.category__list-item.category__list-item--last
-          form(action='#' method='POST')
-            input#modify-form-category-5(type='text' name='category-5' value='Личное')
-            label(for='modify-form-category-5')
-              span.visually-hidden Редактировать категорию
-            button.category__button.button.button--category(type='submit') Сохранить
-            button.category__button.button.button--category(type='button') Удалить
+      if categories.length
+        +insertErrorMessage(validationMessages)
+        ul.category__list
+          each category, i in categories
+            li.category__list-item(class=(i === categories.length - 1 ? `category__list-item--last` : ``))
+              form(action=`/categories/${category.id}`, method=`POST`)
+                input(name=`_csrf`, type=`hidden`, value=csrfToken)
+                input(id=`modify-form-category-${i}`, type=`text`, name=`name` value=category.name)
+                label(for=`modify-form-category-${i}`)
+                  span.visually-hidden Редактировать категорию
+                button.category__button.button.button--category(type=`submit`) Сохранить
+                if !category.count
+                  button.category__button.button.button--category(name=`drop`, value=`1`, type=`submit`) Удалить
+      //- ul.category__list
+      //-   li.category__list-item
+      //-     form(action='#' method='POST')
+      //-       input#modify-form-category-1(type='text' name='category-1' value='Жизнь и путешествия')
+      //-       label(for='modify-form-category-1')
+      //-         span.visually-hidden Редактировать категорию
+      //-       button.category__button.button.button--category(type='submit') Сохранить
+      //-       button.category__button.button.button--category(type='button') Удалить
+
+
+
+//- block main
+//-   main.main-page.main-page--padding
+//-     section.main-page__category.category
+//-       h1.category__title Категории
+//-       +errorMessage(errors, `При ${affectedId ? `изменении категории ${affectedId}` : `добавлении категории`} произошли ошибки:`)
+//-       .category__add-form
+//-         form(action=`/categories`, method=`POST`)
+//-           input(name=`_csrf`, type=`hidden`, value=csrfToken)
+//-           input#add-form-add-category(type=`text`, name=`title`, minlength=MinValue.CATEGORY, maxlength=MaxValue.CATEGORY, placeholder=`Новая категория`, value=affectedTitle, required)
+//-           label(for=`add-form-add-category`)
+//-             span.visually-hidden Добавить категорию
+//-           button.category__button.button.button--category(type=`submit`) Добавить

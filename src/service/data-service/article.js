@@ -77,7 +77,7 @@ class ArticleService extends UserRelatedService {
           }
         }],
       order: [
-        ['createdAt', 'DESC']
+        ['publishedAt', 'DESC']
       ]
     };
     if (needComments) {
@@ -188,7 +188,7 @@ class ArticleService extends UserRelatedService {
       include: this._getInclude(comments),
       distinct: true,
       order: [
-        ['createdAt', 'desc'],
+        ['publishedAt', 'desc'],
         [{model: this._Category, as: Aliase.CATEGORIES}, 'name', 'asc']
       ]
     };

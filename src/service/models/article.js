@@ -20,6 +20,10 @@ const define = (sequelize) => Article.init({
     type: DataTypes.STRING(1000),
     allowNull: false
   },
+  publishedAt: {
+    type: DataTypes.DATE,
+    allowNull: false
+  }
 }, {
   sequelize,
   modelName: 'Article',

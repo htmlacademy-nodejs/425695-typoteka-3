@@ -2,6 +2,7 @@
 
 const {Router} = require('express');
 const csrf = require('csurf');
+let dayjs = require('dayjs');
 const {getAPI} = require('../api');
 const api = getAPI();
 
@@ -13,7 +14,7 @@ const {ensureArray, prepareErrors} = require('../utils');
 const ARTICLES_PER_PAGE = 8;
 
 const getAddArticleData = () => {
-  return api.getCategories();
+  return api.getCategories({count: false});
 };
 const getEditArticleData = async (articleId) => {
   const [article, categories] = await Promise.all([
@@ -32,12 +33,16 @@ articlesRouter.post('/add',
     csrfProtection,
     async (req, res) => {
       const {body, file} = req;
+      const {user} = req.session;
+
       const newArticle = {
         announce: body.announcement,
         categories: ensureArray(body.categories),
         fullText: body['full-text'],
         picture: file ? file.filename.split('@1x')[0] : '',
         title: body.title,
+        publishedAt: body.date,
+        userId: user.id,
       };
 
       try {
@@ -46,7 +51,7 @@ articlesRouter.post('/add',
       } catch (errors) {
         const validationMessages = prepareErrors(errors);
         const categories = await getAddArticleData();
-        res.render('articles/new-post', {categories, validationMessages});
+        res.render('articles/new-post', {categories, validationMessages, csrfToken: req.csrfToken()});
       }
     }
 );
@@ -76,9 +81,10 @@ articlesRouter.get('/category/:id', async (req, res) => {
 articlesRouter.get('/add', auth, csrfProtection, async (req, res) => {
   const {user} = req.session;
   const [categories] = await Promise.all([
-    api.getCategories()
+    api.getCategories({count: false})
   ]);
-  res.render('articles/new-post', {categories, user, csrfToken: req.csrfToken()});
+  const today = dayjs(new Date()).format('YYYY-MM-DD');
+  res.render('articles/new-post', {categories, today, user, csrfToken: req.csrfToken()});
 });
 
 articlesRouter.get('/edit/:id', auth, csrfProtection, async (req, res) => {
@@ -93,6 +99,7 @@ articlesRouter.get('/edit/:id', auth, csrfProtection, async (req, res) => {
 articlesRouter.post('/edit/:id', auth, upload.single('upload'), csrfProtection, async (req, res) => {
   const {body, file} = req;
   const {id} = req.params;
+  const {user} = req.session;
   const backUrl = req.headers.referer;
 
   const articleData = {
@@ -101,6 +108,8 @@ articlesRouter.post('/edit/:id', auth, upload.single('upload'), csrfProtection, 
     fullText: body['full-text'],
     picture: file ? file.filename.split('@1x')[0] : body.photo || '',
     title: body.title,
+    publishedAt: body.date,
+    userId: user.id,
   };
 
   try {

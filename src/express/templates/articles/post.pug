@@ -10,7 +10,7 @@ block content
           .post__head
             a.post__backwards.button.button--backwards(href=backUrl) Назад
             time.post__date(datetime='2019-03-21T20:33')
-              +date(article.createdAt)
+              +date(article.publishedAt)
             h2.post__title.title.title--main #{article.title}
             if isAuthor
               a.preview__name-link(href=`/articles/edit/${article.id}`) Редактировать
@@ -44,21 +44,21 @@ block content
                         +date(comment.createdAt)
                     p.comments__message #{comment.text}
 
-            if user
-              .comments__footer.comments__footer--user
-                form(action=`/articles/${article.id}`, method=`POST`)
-                  .comments__avatar.avatar
-                    img(src=`/img/${user.avatar}`, alt=`аватар пользователя`)
-                  label
-                    textarea(name=`comment`, rows=`1`, placeholder=`Присоединиться к обсуждению`)
-                  input(name=`_csrf`, type=`hidden`, value=csrfToken)
-                  button.comments__button.button.button--colored(type=`submit`) Опубликовать
-                if (!!validationMessages.length)
-                  p.comments__error #{validationMessages[0]}
-            else
-              .comments__footer.comments__footer--visitor
-                a.comments__button.button.button--colored(href=`/login`) Войти
-                .comments__registration
-                  p.text.text--signature
-                    a.title.title--small(href=`/register`) Регистрация
-                    | Чтобы присоединиться к переписке нужно зарегистрироваться
+          if user
+            .comments__footer.comments__footer--user
+              form(action=`/articles/${article.id}`, method=`POST`)
+                .comments__avatar.avatar
+                  img(src=`/img/${user.avatar}`, alt=`аватар пользователя`)
+                label
+                  textarea(name=`comment`, rows=`1`, placeholder=`Присоединиться к обсуждению`)
+                input(name=`_csrf`, type=`hidden`, value=csrfToken)
+                button.comments__button.button.button--colored(type=`submit`) Опубликовать
+              if (!!validationMessages.length)
+                p.comments__error #{validationMessages[0]}
+          else
+            .comments__footer.comments__footer--visitor
+              a.comments__button.button.button--colored(href=`/login`) Войти
+              .comments__registration
+                p.text.text--signature
+                  a.title.title--small(href=`/register`) Регистрация
+                  | Чтобы присоединиться к переписке нужно зарегистрироваться

@@ -52,7 +52,6 @@ class CommentService extends UserRelatedService {
     const comments = await this.findAll({limit: 4});
     return comments.map((item) => {
       const comment = item.get();
-      console.log('comment ', comment);
       comment.truncatedText = truncate(comment.text);
       return comment;
     });
