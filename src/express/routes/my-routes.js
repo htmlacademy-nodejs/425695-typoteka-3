@@ -29,8 +29,17 @@ myRouter.post('/', auth, csrfProtection, async (req, res) => {
 });
 
 myRouter.get('/comments', auth, async (req, res) => {
-  const articles = await api.getArticles({comments: true});
-  res.render('my/comments', {articles: articles.slice(0, 3)});
+  const {user} = req.session;
+  const comments = await api.getComments({userId: user.id});
+
+  res.render('my/comments', {comments, user});
+});
+
+myRouter.post('/comments/delete/:id', auth, async (req, res) => {
+  const {id} = req.params;
+
+  await api.dropComment(id);
+  res.redirect('my/comments');
 });
 
 module.exports = myRouter;

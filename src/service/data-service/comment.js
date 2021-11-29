@@ -7,6 +7,7 @@ const UserRelatedService = require('./user-related');
 class CommentService extends UserRelatedService {
   constructor(sequelize) {
     super(sequelize);
+    this._Article = sequelize.models.Article;
     this._Comment = sequelize.models.Comment;
     this._User = sequelize.models.User;
   }
@@ -24,8 +25,14 @@ class CommentService extends UserRelatedService {
     });
     return !!deletedRows;
   }
-
-  async findAll({articleId = null, limit = null} = {}) {
+  async findOne(id) {
+    const comment = await this._Comment.findByPk(id);
+    if (comment) {
+      return comment.get({plain: true});
+    }
+    return comment;
+  }
+  async findAll({articleId = null, limit = null, userId = null} = {}) {
     const options = {
       include: [this._userInclusion],
       order: [['createdAt', 'desc']]
@@ -33,6 +40,15 @@ class CommentService extends UserRelatedService {
 
     if (articleId) {
       options.where = {ArticleId: articleId};
+    }
+
+    if (userId) {
+      options.include.push({
+        model: this._User,
+        as: Aliase.USERS,
+        attributes: ['avatar', 'name']
+      });
+      options.where = {userId};
     }
 
     if (limit) {

@@ -5,14 +5,16 @@ block content
     section.main-page__publication.publication
       h1.publication__title Комментарии
       ul.publication__list
-        each comment in articles.Comments
+        each comment in comments
           li.publication__list-item
             .publication__header
-              img.publication__list-image(src='/img/avatar-small-2.png' width='20' height='20' alt='Аватар пользователя')
-              b.publication__list-name Александр Петров
+              img.publication__list-image(src=`/img/${comment.Users.avatar}` width='20' height='20' alt='Аватар пользователя')
+              b.publication__list-name #{comment.Users.name}
               time.publication__item-time(datetime='#{comment.createdAt}')
                 +date(comment.createdAt)
-            a.publication__item-text(href='#') #{comment.text}
-            //- p.publication__text-strong #{comment.article.title}
-            button.publication__button.button.button--close-item(type='button')
-              span.visually-hidden Закрыть строку списка
+            a.publication__item-text(href=`/articles/${comment.articleId}`) #{comment.text}
+            p.publication__text-strong #{comment.Articles.title}
+            if comment.userId === user.id
+              form(action=`/comments/delete/${comment.id}` method='POST')
+                button.publication__button.button.button--close-item(type='submit')
+                  span.visually-hidden Удалить комментарий

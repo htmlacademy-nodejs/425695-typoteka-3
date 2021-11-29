@@ -74,24 +74,28 @@ class API {
       data
     });
   }
-
-  getArticle(id, {comments}) {
+  async dropComment(id) {
+    return this._load(`/comments/${id}`, {
+      method: HttpMethod.DELETE
+    });
+  }
+  async getArticle(id, {comments}) {
     return this._load(`/articles/${id}`, {params: {comments}});
   }
 
-  getArticles({categoryId, isHot, offset, limit, comments, userId}) {
+  async getArticles({categoryId, isHot, offset, limit, comments, userId}) {
     return this._load('/articles', {params: {categoryId, isHot, offset, limit, comments, userId}});
   }
 
-  getCategories({count}) {
+  async getCategories({count}) {
     return this._load('/categories', {params: {count}});
   }
 
-  getComments({isLast, limit} = {}) {
-    return this._load('/comments', {params: {isLast, limit}});
+  async getComments({isLast, limit, userId} = {}) {
+    return this._load('/comments', {params: {isLast, limit, userId}});
   }
 
-  search(query) {
+  async search(query) {
     return this._load('/search', {params: {query}});
   }
 }

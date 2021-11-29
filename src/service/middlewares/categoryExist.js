@@ -10,6 +10,6 @@ module.exports = (service) => async (req, res, next) => {
     return res.status(HttpCode.NOT_FOUND).send(`Category with id ${categoryId} not found`);
   }
 
-  res.locals.article = category;
+  res.locals.category = category;
   return next();
 };
