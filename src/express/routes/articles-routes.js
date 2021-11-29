@@ -13,8 +13,8 @@ const {auth, upload} = require('../middlewares');
 const {ensureArray, prepareErrors} = require('../utils');
 const ARTICLES_PER_PAGE = 8;
 
-const getAddArticleData = () => {
-  return api.getCategories({count: false});
+const getAddArticleData = async () => {
+  return await api.getCategories({count: false});
 };
 const getEditArticleData = async (articleId) => {
   const [article, categories] = await Promise.all([

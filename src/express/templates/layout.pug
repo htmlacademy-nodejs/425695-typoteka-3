@@ -28,7 +28,6 @@ body
   mixin insertErrorMessage(messages)
     if messages
       div.form__validation-error
-        //- p.form__error-message При регистрации произошли ошибки:
         ul.form__errors
           each message in messages
             li.form__error= message
