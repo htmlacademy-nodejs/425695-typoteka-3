@@ -1,0 +1,12 @@
+extends ../layout.pug
+
+block content
+  main.articles-category
+    h1 #{activeCategory.name}
+    if !articles.length
+      .main-page__empty-wrapper
+        p.main-page__empty-text Здесь пока пусто!
+    else
+      section.articles-category__theme-list
+        include ../partials/categories
+      include ../partials/articles

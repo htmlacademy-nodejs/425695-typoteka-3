@@ -10,6 +10,9 @@ head
   link(rel='preload' href='/fonts/Inter-Medium.woff2' as='font' crossorigin='anonymous')
   link(rel='preload' href='/fonts/SFProDisplay-Regular.woff2' as='font' crossorigin='anonymous')
   link(rel='stylesheet' href='/css/style.min.css')
+
+  include partials/styles
+
 body
   style.
     a.pagination__item--active{
@@ -24,37 +27,38 @@ body
     }
   mixin insertErrorMessage(messages)
     if messages
-      each message in messages
-        li.form__error= message
+      div.form__validation-error
+        ul.form__errors
+          each message in messages
+            li.form__error= message
   mixin date(dateValue)
     | #{new Date(dateValue).toLocaleDateString(_, {hour: 'numeric', minute: 'numeric'})}
   mixin pagination(page, totalPages, width, prefix)
     -
       let start = page - width;
       let end = page + width;
-      if(start < 1){
+      if (start < 1) {
         end += 1 - start;
         start = 1;
       }
-      if(end > totalPages){
+      if (end > totalPages) {
         start -= end - totalPages;
         end = totalPages;
       }
-      if(start < 1){
+      if (start < 1) {
         start = 1;
       }
       let i = start - 1
 
-    ul.preview__pagination.pagination
-      if start > 1
+    if totalPages > 1
+      ul.pagination.preview__pagination
         li
-          a.pagination__button.button.button--backwards(href=`${prefix}page=${page - 1}` aria-label='Страница назад') Назад
-      while i++ < end
-        li.pagination__item
-          a(class={"pagination__item--active": i === page} href=`${prefix}page=${i}`)= i
-      if end < totalPages
+          a.pagination__button.button.button--backwards(class={'button--disabled': page === 1}, href=(page > 1 ? `${prefix}page=${page - 1}` : null), aria-label='Страница назад')
+        while i++ < end
+          li.pagination__item(class={'pagination__item--active': i === page})
+            a(href=(i === page ? null : `${prefix}page=${i}`))= i
         li
-          a.pagination__button.button.button--forward(href=`${prefix}page=${page + 1}` aria-label='Страница вперед') Вперёд
+          a.pagination__button.button.button--forward(class={'button--disabled': page === totalPages}, href=(page < totalPages ? `${prefix}page=${page + 1}` : null), aria-label='Страница вперед')
   .wrapper
     include partials/header.pug
     block content

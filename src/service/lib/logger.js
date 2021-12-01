@@ -6,8 +6,8 @@ const pino = require('pino');
 
 const {Env, FILE_LOG, DIR_LOG} = require('../constants');
 
-const isDevMode = process.env.NODE_ENV === Env.DEVELOPMENT;
-const defaultLogLevel = isDevMode ? 'info' : 'error';
+const isDevMode = process.env.NODE_ENV !== Env.PRODUCTION;
+const defaultLogLevel = isDevMode ? 'debug' : 'error';
 
 if (!fs.existsSync(DIR_LOG)) {
   fs.mkdirSync(DIR_LOG);

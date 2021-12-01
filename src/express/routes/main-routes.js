@@ -8,26 +8,24 @@ const api = getAPI();
 const {upload} = require('../middlewares');
 const {prepareErrors} = require('../utils');
 
-const OFFERS_PER_PAGE = 8;
+const ARTICLES_PER_PAGE = 8;
 
 mainRouter.get('/', async (req, res) => {
   const {user} = req.session;
   let {page = 1} = req.query;
 
   page = +page;
-  const limit = OFFERS_PER_PAGE;
-  const offset = (page - 1) * OFFERS_PER_PAGE;
-  const [
-    {articles, count},
-    categories
-  ] = await Promise.all([
+  const limit = ARTICLES_PER_PAGE;
+  const offset = (page - 1) * ARTICLES_PER_PAGE;
+  const [{articles, count}, categories, hotArticles, lastComments] = await Promise.all([
     api.getArticles({comments: true, limit, offset}),
-    api.getCategories(true)
+    api.getCategories({count: true}),
+    api.getArticles({isHot: true}),
+    api.getComments({isLast: true})
   ]);
 
-  const totalPages = Math.ceil(count / OFFERS_PER_PAGE);
-
-  res.render('main', {articles, page, totalPages, categories, user});
+  const totalPages = Math.ceil(count / ARTICLES_PER_PAGE);
+  res.render('main', {articles, hotArticles, lastComments, page, totalPages, categories, user});
 });
 
 mainRouter.get('/register', (req, res) => {
@@ -83,18 +81,18 @@ mainRouter.get('/logout', (req, res) => {
 
 mainRouter.get('/search', async (req, res) => {
   const {search} = req.query;
-  try {
-    const results = await api.search(search);
+  let isNoMatches;
+  if (!search) {
+    res.render('main/search', {isNoMatches: false, results: [], searchText: search});
+  } else {
+    try {
+      const results = await api.search(search);
 
-    res.render('main/search', {
-      results,
-      searchText: search,
-    });
-  } catch (error) {
-    res.render('main/search', {
-      results: [],
-      searchText: search,
-    });
+      res.render('main/search', {isNoMatches, results, searchText: search});
+    } catch (error) {
+      res.render('main/search', {isNoMatches: true, results: [], searchText: search});
+    }
   }
+
 });
 module.exports = mainRouter;

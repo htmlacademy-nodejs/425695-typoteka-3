@@ -15,7 +15,7 @@ const define = (sequelize) => {
   const User = defineUser(sequelize);
 
   Article.hasMany(Comment, {as: Aliase.COMMENTS, foreignKey: 'articleId', onDelete: 'cascade'});
-  Comment.belongsTo(Article, {foreignKey: 'articleId'});
+  Comment.belongsTo(Article, {as: Aliase.ARTICLES, foreignKey: 'articleId'});
 
   class ArticleCategory extends Model {}
   ArticleCategory.init({}, {sequelize});
@@ -24,11 +24,15 @@ const define = (sequelize) => {
   Category.belongsToMany(Article, {through: ArticleCategory, as: Aliase.ARTICLES});
   Category.hasMany(ArticleCategory, {as: Aliase.ARTICLE_CATEGORIES});
 
-  User.hasMany(Article, {as: Aliase.ARTICLES, foreignKey: 'userId'});
-  Article.belongsTo(User, {as: Aliase.USER, foreignKey: 'userId'});
+  Article.hasMany(ArticleCategory, {as: Aliase.ARTICLE_CATEGORIES});
 
-  User.hasMany(Comment, {as: Aliase.COMMENTS, foreignKey: 'userId'});
-  Comment.belongsTo(User, {as: Aliase.USER, foreignKey: 'userId'});
+
+  User.hasMany(Article, {as: Aliase.ARTICLES, foreignKey: 'userId', onDelete: 'cascade'});
+  Article.belongsTo(User, {as: Aliase.USERS, foreignKey: 'userId'});
+
+  User.hasMany(Comment, {as: Aliase.COMMENTS, foreignKey: 'userId', onDelete: 'cascade'});
+  Comment.belongsTo(User, {as: Aliase.USERS, foreignKey: 'userId'});
+
 
   return {Article, ArticleCategory, Category, Comment, User};
 };

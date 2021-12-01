@@ -58,8 +58,9 @@ const generateArticles = (count, titles, categories, sentences, comments, pictur
       picture: pictures[getRandomInt(1, pictures.length - 1)],
       user: users[getRandomInt(0, users.length - 1)].email,
       categories: getRandomSubarray(categories),
-      comments: generateComments(getRandomInt(1, MAX_COMMENTS), comments, users),
+      Comments: generateComments(getRandomInt(1, MAX_COMMENTS), comments, users),
       title: titles[getRandomInt(0, titles.length - 1)],
+      publishedAt: new Date(),
     };
   })
 );

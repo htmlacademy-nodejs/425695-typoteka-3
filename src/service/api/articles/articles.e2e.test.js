@@ -120,10 +120,10 @@ describe('API refuses to create an article if data is invalid', () => {
       {...newArticle, picture: 12345},
       {...newArticle, categories: 'Котики'}
     ];
-    for (const badOffer of badArticles) {
+    for (const badArticle of badArticles) {
       await request(app)
         .post('/articles')
-        .send(badOffer)
+        .send(badArticle)
         .expect(HttpCode.BAD_REQUEST);
     }
   });

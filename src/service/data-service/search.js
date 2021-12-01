@@ -20,7 +20,7 @@ class SearchService {
       include: [Aliase.CATEGORIES,
         {
           model: this._User,
-          as: Aliase.USER,
+          as: Aliase.USERS,
           attributes: {
             exclude: ['passwordHash']
           }

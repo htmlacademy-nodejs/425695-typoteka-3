@@ -13,10 +13,9 @@ block content
           form(action='/login' method='post')
             .form__field
               label
-                input(type='email' name='email' placeholder='Электронная почта' required='')
+                input(type='email' name='email' placeholder='Электронная почта')
             .form__field
               label
-                input(type='password' name='password' placeholder='Пароль' required='')
-            //- p.form__error-message Некоторая ошибка произошла, беда!
+                input(type='password' name='password' placeholder='Пароль')
             +insertErrorMessage(validationMessages)
             button.form__submit-btn.form__submit-btn--log-in.button.button--colored(type='submit') Войти
