@@ -1,14 +1,16 @@
 'use strict';
 
 const API_PREFIX = '/api';
+const DEFAULT_COMMAND = '--help';
+const DEFAULT_ARTICLES_COUNT = 3;
+const DEFAULT_PORT = 3000;
+const USER_ARGV_INDEX = 2;
+
 const Env = {
   DEVELOPMENT: 'development',
   PRODUCTION: 'production'
 };
 
-const DEFAULT_COMMAND = '--help';
-const DEFAULT_COUNT = 3;
-const DEFAULT_PORT = 3000;
 const ExitCode = {
   ERROR: 1,
   SUCCESS: 0,
@@ -24,54 +26,37 @@ const HttpCode = {
   UNAUTHORIZED: 401,
 };
 
-const FILE_MOCKS_NAME = 'mocks.json';
-const USER_ARGV_INDEX = 2;
-
-const currentDate = new Date();
-const MONTHS_WITHIN_COUNT = 3;
-const createdAtMs = {
-  MAX: currentDate.getTime(),
-  MIN: new Date(currentDate.setMonth(currentDate.getMonth() - MONTHS_WITHIN_COUNT)).getTime(),
+const MaxCount = {
+  ANNOUNCE: 2,
+  COMMENTS: 4,
+  FULLTEXT: 4,
 };
 
-const ANNOUNCE_MAX_COUNT = 2;
-const FULLTEXT_MAX_COUNT = 4;
-
+const FILE_MOCKS_NAME = 'mocks.json';
 const DIR_LOG = './src/service/logs';
-const FILE_SENTENCES_PATH = './data/sentences.txt';
-const FILE_TITLES_PATH = './data/titles.txt';
-const FILE_CATEGORIES_PATH = './data/categories.txt';
-const FILE_COMMENTS_PATH = './data/comments.txt';
-const FILE_FILL_DB_NAME = './queries/fill-db.sql';
-const FILE_PICTURES_PATH = './data/pictures.txt';
-const FILE_MOCKS_PATH = `./${FILE_MOCKS_NAME}`;
-const FILE_LOG = `${DIR_LOG}/api.log`;
 
-const MAX_COMMENTS = 4;
-const MAX_ID_LENGTH = 6;
+const FilePath = {
+  SENTENCES: './data/sentences.txt',
+  TITLES: './data/titles.txt',
+  CATEGORIES: './data/categories.txt',
+  COMMENTS: './data/comments.txt',
+  PICTURES: './data/pictures.txt',
+  MOCKS: `./${FILE_MOCKS_NAME}`,
+  LOG: `${DIR_LOG}/api.log`,
+  FILL_DB: './queries/fill-db.sql',
+};
 
 module.exports = {
   API_PREFIX,
-  ANNOUNCE_MAX_COUNT,
-  FULLTEXT_MAX_COUNT,
-  createdAtMs,
   DEFAULT_COMMAND,
-  DEFAULT_COUNT,
+  DEFAULT_ARTICLES_COUNT,
   DEFAULT_PORT,
   DIR_LOG,
   Env,
   ExitCode,
-  FILE_CATEGORIES_PATH,
-  FILE_COMMENTS_PATH,
-  FILE_FILL_DB_NAME,
-  FILE_LOG,
+  FilePath,
   FILE_MOCKS_NAME,
-  FILE_MOCKS_PATH,
-  FILE_PICTURES_PATH,
-  FILE_SENTENCES_PATH,
-  FILE_TITLES_PATH,
   HttpCode,
-  MAX_COMMENTS,
-  MAX_ID_LENGTH,
+  MaxCount,
   USER_ARGV_INDEX,
 };

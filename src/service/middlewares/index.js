@@ -1,13 +1,13 @@
 'use strict';
 
-const commentValidator = require('./commentValidator');
-const articleExist = require('./articleExist');
-const categoryExist = require('./categoryExist');
-const commentExist = require('./commentExist');
-const articleValidator = require('./articleValidator');
-const categoryValidator = require('./categoryValidator');
-const routeParamsValidator = require('./routeParamsValidator');
-const userValidator = require('./userValidator');
+const commentValidator = require('./comment-validator');
+const articleExist = require('./article-exist');
+const categoryExist = require('./category-exist');
+const commentExist = require('./comment-exist');
+const articleValidator = require('./article-validator');
+const categoryValidator = require('./category-validator');
+const routeParamsValidator = require('./route-params-validator');
+const userValidator = require('./user-validator');
 
 module.exports = {
   commentValidator,

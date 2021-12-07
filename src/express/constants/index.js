@@ -1,8 +1,11 @@
 'use strict';
 
 const DEFAULT_SERVER_PORT = 8080;
-const PUBLIC_DIR = 'public';
-const UPLOAD_DIR = 'upload';
+
+const Dir = {
+  PUBLIC: 'public',
+  UPLOAD: 'upload'
+};
 
 const HttpMethod = {
   GET: 'GET',
@@ -10,6 +13,7 @@ const HttpMethod = {
   PUT: 'PUT',
   DELETE: 'DELETE'
 };
+
 const HttpCode = {
   CREATED: 201,
   OK: 200,
@@ -20,10 +24,10 @@ const HttpCode = {
   FORBIDDEN: 403,
   UNAUTHORIZED: 401,
 };
+
 module.exports = {
   DEFAULT_SERVER_PORT,
   HttpCode,
   HttpMethod,
-  PUBLIC_DIR,
-  UPLOAD_DIR,
+  Dir,
 };
