@@ -9,7 +9,7 @@ const {SESSION_SECRET} = process.env;
 if (!SESSION_SECRET) {
   throw new Error('SESSION_SECRET environment variable is not defined');
 }
-const {DEFAULT_SERVER_PORT, PUBLIC_DIR, HttpCode, UPLOAD_DIR} = require('./constants');
+const {DEFAULT_SERVER_PORT, Dir, HttpCode} = require('./constants');
 const {articlesRoutes, categoriesRoutes, mainRoutes, myRoutes} = require('./routes');
 
 const mySessionStore = new SequelizeStore({
@@ -30,8 +30,8 @@ app.use(session({
   proxy: true,
   saveUninitialized: false,
 }));
-app.use(express.static(path.resolve(__dirname, PUBLIC_DIR)));
-app.use(express.static(path.resolve(__dirname, UPLOAD_DIR)));
+app.use(express.static(path.resolve(__dirname, Dir.PUBLIC)));
+app.use(express.static(path.resolve(__dirname, Dir.UPLOAD)));
 
 app.set('views', path.resolve(__dirname, 'templates'));
 app.set('view engine', 'pug');

@@ -2,7 +2,7 @@
 
 const fs = require('fs').promises;
 
-const {FILE_MOCKS_PATH} = require('../constants');
+const {FilePath} = require('../constants');
 const {getLogger} = require('./logger');
 
 
@@ -16,7 +16,7 @@ const getMockData = async () => {
   }
 
   try {
-    const fileContent = await fs.readFile(FILE_MOCKS_PATH);
+    const fileContent = await fs.readFile(FilePath.MOCKS);
     data = JSON.parse(fileContent);
   } catch (err) {
     logger.error(err);

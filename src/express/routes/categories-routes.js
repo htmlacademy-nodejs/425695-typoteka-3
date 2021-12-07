@@ -1,22 +1,25 @@
 'use strict';
 
 const {Router} = require('express');
-
-const categoriesRouter = new Router();
 const csrf = require('csurf');
 const {auth} = require('../middlewares');
 const {getAPI} = require('../api');
-const api = getAPI();
 const {prepareErrors} = require('../utils');
 
+const categoriesRouter = new Router();
+const api = getAPI();
 const csrfProtection = csrf();
 
-categoriesRouter.get('/', auth, csrfProtection, async (req, res) => {
+categoriesRouter.get('/', auth, csrfProtection, async (req, res, next) => {
   const {user} = req.session;
-  const [categories] = await Promise.all([
-    api.getCategories({count: true}),
-  ]);
-  res.render('categories', {categories, user, csrfToken: req.csrfToken()});
+  try {
+    const [categories] = await Promise.all([
+      api.getCategories({count: true}),
+    ]);
+    res.render('categories', {categories, user, csrfToken: req.csrfToken()});
+  } catch (error) {
+    next(error);
+  }
 });
 
 categoriesRouter.post('/add', auth, csrfProtection, async (req, res) => {
