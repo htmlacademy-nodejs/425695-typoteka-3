@@ -5,23 +5,8 @@ const fs = require('fs').promises;
 const chalk = require('chalk');
 
 const {getLogger} = require('../lib/logger');
-
-const {
-  ANNOUNCE_MAX_COUNT,
-  DEFAULT_COUNT,
-  ExitCode,
-  FILE_CATEGORIES_PATH,
-  FILE_COMMENTS_PATH,
-  FILE_FILL_DB_NAME,
-  FILE_SENTENCES_PATH,
-  FILE_PICTURES_PATH,
-  FILE_TITLES_PATH,
-  MAX_COMMENTS,
-} = require('../constants');
-const {
-  getRandomInt,
-  shuffle,
-} = require('../utils');
+const {DEFAULT_ARTICLES_COUNT, ExitCode, FilePath, MaxCount} = require('../constants');
+const {getRandomInt, shuffle} = require('../utils');
 
 const logger = getLogger({name: 'fill'});
 
@@ -44,9 +29,9 @@ const generateArticles = (count, categoryCount, sentences, titles, comments, pic
     const articleId = articleIdx + 1;
 
     return {
-      announce: shuffle(sentences).slice(1, ANNOUNCE_MAX_COUNT).join(' '),
+      announce: shuffle(sentences).slice(1, MaxCount.ANNOUNCE).join(' '),
       category: [getRandomInt(1, categoryCount)],
-      comments: generateComments(articleId, getRandomInt(1, MAX_COMMENTS), comments, userCount),
+      comments: generateComments(articleId, getRandomInt(1, MaxCount.COMMENTS), comments, userCount),
       fullText: shuffle(sentences).slice(1, getRandomInt(1, sentences.length - 1)).join(' '),
       id: articleId,
       picture: pictures[getRandomInt(1, pictures.length - 1)],
@@ -87,15 +72,15 @@ const readContent = async (filePath) => {
 module.exports = {
   name: '--fill',
   async run(args) {
-    const categories = await readContent(FILE_CATEGORIES_PATH);
-    const commentSentences = await readContent(FILE_COMMENTS_PATH);
+    const categories = await readContent(FilePath.CATEGORIES);
+    const commentSentences = await readContent(FilePath.COMMENTS);
 
-    const pictures = await readContent(FILE_PICTURES_PATH);
-    const sentences = await readContent(FILE_SENTENCES_PATH);
-    const titles = await readContent(FILE_TITLES_PATH);
+    const pictures = await readContent(FilePath.PICTURES);
+    const sentences = await readContent(FilePath.SENTENCES);
+    const titles = await readContent(FilePath.TITLES);
 
     const [count] = args;
-    const countArticle = Number.parseInt(count, 10) || DEFAULT_COUNT;
+    const countArticle = Number.parseInt(count, 10) || DEFAULT_ARTICLES_COUNT;
     if (countArticle > 1000) {
       logger.info(chalk.red('Не больше 1000 публикаций.'));
       process.exit(ExitCode.ERROR);
@@ -134,7 +119,7 @@ INSERT INTO comments(id, article_id, user_id, text) VALUES
 ALTER TABLE comments ENABLE TRIGGER ALL;`;
 
     try {
-      await fs.writeFile(FILE_FILL_DB_NAME, content);
+      await fs.writeFile(FilePath.FILL_DB, content);
       logger.info(chalk.green('Operation success. File created.'));
     } catch (err) {
       logger.error(chalk.red('Can\'t write data to file...'));

@@ -7,7 +7,7 @@ const Sequelize = require('sequelize');
 const initDB = require('../../lib/init-db');
 const {HttpCode} = require('../../constants');
 const DataService = require('../../data-service/search');
-const {mockArticles, mockCategories, mockUsers} = require('./mockData');
+const {mockArticles, mockCategories, mockUsers} = require('./mock-data');
 const search = require('./search');
 
 

@@ -3,10 +3,9 @@
 const fs = require('fs').promises;
 
 const {Router} = require('express');
-const postsRouter = new Router();
-
 const {FILE_MOCKS_NAME} = require('../constants');
 
+const postsRouter = new Router();
 
 postsRouter.get('/', async (req, res) => {
   let mocks;

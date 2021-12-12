@@ -1,31 +1,34 @@
 'use strict';
 
 const {Router} = require('express');
-
+const {prepareErrors} = require('../utils');
 const {getAPI} = require('../api');
+const {upload} = require('../middlewares');
+
 const mainRouter = new Router();
 const api = getAPI();
-const {upload} = require('../middlewares');
-const {prepareErrors} = require('../utils');
-
 const ARTICLES_PER_PAGE = 8;
 
-mainRouter.get('/', async (req, res) => {
+mainRouter.get('/', async (req, res, next) => {
   const {user} = req.session;
   let {page = 1} = req.query;
 
   page = +page;
   const limit = ARTICLES_PER_PAGE;
   const offset = (page - 1) * ARTICLES_PER_PAGE;
-  const [{articles, count}, categories, hotArticles, lastComments] = await Promise.all([
-    api.getArticles({comments: true, limit, offset}),
-    api.getCategories({count: true}),
-    api.getArticles({isHot: true}),
-    api.getComments({isLast: true})
-  ]);
+  try {
+    const [{articles, count}, categories, hotArticles, lastComments] = await Promise.all([
+      api.getArticles({comments: true, limit, offset}),
+      api.getCategories({count: true}),
+      api.getArticles({isHot: true}),
+      api.getComments({isLast: true})
+    ]);
 
-  const totalPages = Math.ceil(count / ARTICLES_PER_PAGE);
-  res.render('main', {articles, hotArticles, lastComments, page, totalPages, categories, user});
+    const totalPages = Math.ceil(count / ARTICLES_PER_PAGE);
+    res.render('main', {articles, hotArticles, lastComments, page, totalPages, categories, user});
+  } catch (error) {
+    next(error);
+  }
 });
 
 mainRouter.get('/register', (req, res) => {

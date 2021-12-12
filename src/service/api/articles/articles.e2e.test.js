@@ -8,7 +8,7 @@ const initDB = require('../../lib/init-db');
 const {HttpCode} = require('../../constants');
 const DataService = require('../../data-service/article');
 const articles = require('./articles');
-const {mockArticles, mockCategories, mockUsers} = require('./mockData');
+const {mockArticles, mockCategories, mockUsers} = require('./mock-data');
 
 const createAPI = async () => {
   const mockDB = new Sequelize('sqlite::memory:', {logging: false});
@@ -66,7 +66,6 @@ describe('API returns an article with given id', () => {
   let response;
 
   beforeAll(async () => {
-    // const app = await createAPI();
     response = await request(app)
       .get('/articles/1');
   });

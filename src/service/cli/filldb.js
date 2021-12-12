@@ -9,21 +9,8 @@ const sequelize = require('../lib/sequelize');
 const initDatabase = require('../lib/init-db');
 const passwordUtils = require('../lib/password');
 
-const {
-  ANNOUNCE_MAX_COUNT,
-  FULLTEXT_MAX_COUNT,
-  DEFAULT_COUNT,
-  FILE_CATEGORIES_PATH,
-  FILE_COMMENTS_PATH,
-  FILE_SENTENCES_PATH,
-  FILE_PICTURES_PATH,
-  FILE_TITLES_PATH,
-  MAX_COMMENTS,
-} = require('../constants');
-const {
-  getRandomInt,
-  shuffle,
-} = require('../utils');
+const {DEFAULT_ARTICLES_COUNT, FilePath, MaxCount} = require('../constants');
+const {getRandomInt, shuffle} = require('../utils');
 
 const logger = getLogger({name: 'filldb'});
 
@@ -53,12 +40,12 @@ const getRandomSubarray = (items) => {
 const generateArticles = (count, titles, categories, sentences, comments, pictures, users) => (
   Array(count).fill({}).map(() => {
     return {
-      announce: shuffle(sentences).slice(1, ANNOUNCE_MAX_COUNT).join(' '),
-      fullText: shuffle(sentences).slice(1, FULLTEXT_MAX_COUNT).join(' '),
+      announce: shuffle(sentences).slice(1, MaxCount.ANNOUNCE).join(' '),
+      fullText: shuffle(sentences).slice(1, MaxCount.FULLTEXT).join(' '),
       picture: pictures[getRandomInt(1, pictures.length - 1)],
       user: users[getRandomInt(0, users.length - 1)].email,
       categories: getRandomSubarray(categories),
-      Comments: generateComments(getRandomInt(1, MAX_COMMENTS), comments, users),
+      Comments: generateComments(getRandomInt(1, MaxCount.COMMENTS), comments, users),
       title: titles[getRandomInt(0, titles.length - 1)],
       publishedAt: new Date(),
     };
@@ -88,11 +75,11 @@ module.exports = {
     }
     logger.info('Connection to database established');
 
-    const categories = await readContent(FILE_CATEGORIES_PATH);
-    const comments = await readContent(FILE_COMMENTS_PATH);
-    const pictures = await readContent(FILE_PICTURES_PATH);
-    const sentences = await readContent(FILE_SENTENCES_PATH);
-    const titles = await readContent(FILE_TITLES_PATH);
+    const categories = await readContent(FilePath.CATEGORIES);
+    const comments = await readContent(FilePath.COMMENTS);
+    const pictures = await readContent(FilePath.PICTURES);
+    const sentences = await readContent(FilePath.SENTENCES);
+    const titles = await readContent(FilePath.TITLES);
 
     const users = [
       {
@@ -110,7 +97,7 @@ module.exports = {
     ];
 
     const [count] = args;
-    const countArticle = Number.parseInt(count, 10) || DEFAULT_COUNT;
+    const countArticle = Number.parseInt(count, 10) || DEFAULT_ARTICLES_COUNT;
     const articles = generateArticles(countArticle, titles, categories, sentences, comments, pictures, users);
 
     return initDatabase(sequelize, {articles, categories, users});
