@@ -6,16 +6,16 @@ module.exports = {
   name: '--help',
   run() {
     const text = `
-    Программа запускает http-сервер и формирует файл с данными для API.
+    Программа запускает http-сервер и заполняет локальную БД для API.
 
     Гайд:
-    node ./src/service/service.js <command>
+    npm run service -- <command>
     Команды:
-    --version:            выводит номер версии
-    --help:               печатает этот текст
-    --generate <count>    формирует файл mocks.json
+    --filldb <COUNT>       заполняет локальную БД (COUNT - количество постов)
+    --server <PORT>        запускает http-сервер (PORT - номер порта)
+    --version              выводит номер версии
+    --help                 печатает этот текст
     `;
-
     console.log(chalk.gray(text));
   }
 };
