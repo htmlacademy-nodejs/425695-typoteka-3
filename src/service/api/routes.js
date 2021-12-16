@@ -10,7 +10,7 @@ const {
   UserService,
 } = require('../data-service');
 const sequelize = require('../lib/sequelize');
-const defineModels = require('../models');
+const defineModels = require('../models/define');
 const articles = require('./articles/articles');
 const categories = require('./categories/categories');
 const comments = require('./comments/comments');

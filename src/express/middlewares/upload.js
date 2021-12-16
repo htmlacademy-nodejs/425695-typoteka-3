@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     const uniqueName = nanoid(10);
     const extension = file.originalname.split('.').pop();
-    cb(null, `${uniqueName}@1x.${extension}`);
+    cb(null, `${uniqueName}.${extension}`);
   }
 });
 

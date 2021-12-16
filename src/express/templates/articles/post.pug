@@ -20,9 +20,11 @@ block content
                   a.themes__item-link(href=`/articles/category/${category.id}`)
                     | #{category.name}
                     sup #{category.count}
-                    //- button.themes__remove-btn(type='button') Удалить категорию
           .post__picture
-            img(src=`/img/${article.picture}@1x.jpg` alt=article.title)
+            if article.picture.includes(".")
+              img.preview__background-image(src=`/img/${article.picture}` width='460' height='240' alt=article.title)
+            else
+              img.preview__background-image(src=`/img/${article.picture}@1x.jpg` width='460' height='240' srcset=`/img/${article.picture}@1x.jpg 1x, /img/${article.picture}@2x.jpg 2x` alt=article.title)
           .post__text
             p #{article.announce}
             p #{article.fullText}

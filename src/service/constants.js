@@ -5,6 +5,8 @@ const DEFAULT_COMMAND = '--help';
 const DEFAULT_ARTICLES_COUNT = 3;
 const DEFAULT_PORT = 3000;
 const USER_ARGV_INDEX = 2;
+const FILE_MOCKS_NAME = 'mocks.json';
+const DIR_LOG = './src/service/logs';
 
 const Env = {
   DEVELOPMENT: 'development',
@@ -32,9 +34,6 @@ const MaxCount = {
   COMMENTS: 4,
   FULLTEXT: 4,
 };
-
-const FILE_MOCKS_NAME = 'mocks.json';
-const DIR_LOG = './src/service/logs';
 
 const FilePath = {
   SENTENCES: './data/sentences.txt',

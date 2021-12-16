@@ -6,14 +6,10 @@ const help = require('./help');
 const server = require('./server');
 const version = require('./version');
 
-const Cli = {
+module.exports = () => ({
   [fill.name]: fill,
   [filldb.name]: filldb,
   [help.name]: help,
   [server.name]: server,
   [version.name]: version,
-};
-
-module.exports = {
-  Cli,
-};
+});
