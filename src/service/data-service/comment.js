@@ -25,6 +25,7 @@ class CommentService extends UserRelatedService {
     });
     return !!deletedRows;
   }
+
   async findOne(id) {
     const comment = await this._Comment.findByPk(id);
     if (comment) {
@@ -32,6 +33,7 @@ class CommentService extends UserRelatedService {
     }
     return comment;
   }
+
   async findAll({articleId = null, limit = null, userId = null} = {}) {
     const options = {
       include: [this._userInclusion],

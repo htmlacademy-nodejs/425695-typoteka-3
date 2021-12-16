@@ -1,6 +1,7 @@
 'use strict';
 
 const DEFAULT_SERVER_PORT = 8080;
+const ARTICLES_PER_PAGE = 8;
 
 const Dir = {
   PUBLIC: 'public',
@@ -26,6 +27,7 @@ const HttpCode = {
 };
 
 module.exports = {
+  ARTICLES_PER_PAGE,
   DEFAULT_SERVER_PORT,
   HttpCode,
   HttpMethod,

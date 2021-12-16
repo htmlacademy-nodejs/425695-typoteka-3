@@ -11,11 +11,8 @@ const uploadDirAbsolute = path.resolve(__dirname, UPLOAD_DIR);
 
 
 const fileFilter = (req, file, cb) => {
-  if (FILE_TYPES.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
+  const acceptFile = FILE_TYPES.includes(file.mimetype);
+  cb(null, acceptFile);
 };
 
 const storage = multer.diskStorage({

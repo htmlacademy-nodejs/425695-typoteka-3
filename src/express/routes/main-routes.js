@@ -4,10 +4,10 @@ const {Router} = require('express');
 const {prepareErrors} = require('../utils');
 const {getAPI} = require('../api');
 const {upload} = require('../middlewares');
+const {ARTICLES_PER_PAGE} = require('../constants');
 
 const mainRouter = new Router();
 const api = getAPI();
-const ARTICLES_PER_PAGE = 8;
 
 mainRouter.get('/', async (req, res, next) => {
   const {user} = req.session;

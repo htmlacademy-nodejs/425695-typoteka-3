@@ -4,6 +4,7 @@ const axios = require('axios');
 
 const {HttpMethod} = require('./constants');
 
+const TIMEOUT = 1000;
 class API {
 
   constructor(baseURL, timeout) {
@@ -11,11 +12,6 @@ class API {
       baseURL,
       timeout
     });
-  }
-
-  async _load(url, options) {
-    const response = await this._http.request({url, ...options});
-    return response.data;
   }
 
   async createUser(data) {
@@ -45,18 +41,21 @@ class API {
       data
     });
   }
+
   async createCategory(data) {
     return this._load('/categories', {
       method: HttpMethod.POST,
       data
     });
   }
+
   async editCategory(id, data) {
     return this._load(`/categories/${id}`, {
       method: HttpMethod.PUT,
       data
     });
   }
+
   async dropCategory(id) {
     return this._load(`/categories/${id}`, {
       method: HttpMethod.DELETE
@@ -74,11 +73,13 @@ class API {
       data
     });
   }
+
   async dropComment(id) {
     return this._load(`/comments/${id}`, {
       method: HttpMethod.DELETE
     });
   }
+
   async getArticle(id, {comments}) {
     return this._load(`/articles/${id}`, {params: {comments}});
   }
@@ -98,9 +99,13 @@ class API {
   async search(query) {
     return this._load('/search', {params: {query}});
   }
+
+  async _load(url, options) {
+    const response = await this._http.request({url, ...options});
+    return response.data;
+  }
 }
 
-const TIMEOUT = 1000;
 
 const port = process.env.API_PORT || 3000;
 const defaultUrl = `http://localhost:${port}/api/`;

@@ -28,6 +28,7 @@ const HttpCode = {
 
 const MaxCount = {
   ANNOUNCE: 2,
+  ARTICLES: 1000,
   COMMENTS: 4,
   FULLTEXT: 4,
 };

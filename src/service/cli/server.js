@@ -6,7 +6,7 @@ const app = express();
 const {getLogger} = require('../lib/logger');
 const sequelize = require('../lib/sequelize');
 
-const routes = require('../api');
+const routes = require('../api/routes');
 const {API_PREFIX, DEFAULT_PORT, ExitCode, HttpCode} = require('../constants');
 
 

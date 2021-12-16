@@ -6,11 +6,11 @@ let dayjs = require('dayjs');
 const {getAPI} = require('../api');
 const {auth, upload} = require('../middlewares');
 const {ensureArray, prepareErrors} = require('../utils');
+const {ARTICLES_PER_PAGE} = require('../constants');
 
 const api = getAPI();
 const articlesRouter = new Router();
 const csrfProtection = csrf();
-const ARTICLES_PER_PAGE = 8;
 
 const getAddArticleData = async () => {
   return await api.getCategories({count: false});

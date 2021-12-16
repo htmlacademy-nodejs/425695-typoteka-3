@@ -21,38 +21,6 @@ class ArticleService extends UserRelatedService {
     };
   }
 
-  _getInclude(comments, countCategories = false) {
-    const include = [
-      {
-        model: this._Category,
-        as: Aliase.CATEGORIES,
-        attributes: [
-          'id',
-          'name'
-        ]
-      },
-      this._userInclusion
-    ];
-
-    if (countCategories) {
-      include[0].attributes.push([
-        this._sequelize.fn('COUNT', this._sequelize.col('Article.id')),
-        'count'
-      ]);
-      include[0].include = [{
-        model: this._ArticleCategory,
-        as: Aliase.ARTICLE_CATEGORIES,
-        attributes: []
-      }];
-    }
-
-    if (comments) {
-      include.push(this._commentInclusion);
-    }
-
-    return include;
-  }
-
   async create(articleData) {
     const article = await this._Article.create(articleData);
     await article.addCategories(articleData.categories);
@@ -207,6 +175,37 @@ class ArticleService extends UserRelatedService {
     return {count, articles: rows};
   }
 
+  _getInclude(comments, countCategories = false) {
+    const include = [
+      {
+        model: this._Category,
+        as: Aliase.CATEGORIES,
+        attributes: [
+          'id',
+          'name'
+        ]
+      },
+      this._userInclusion
+    ];
+
+    if (countCategories) {
+      include[0].attributes.push([
+        this._sequelize.fn('COUNT', this._sequelize.col('Article.id')),
+        'count'
+      ]);
+      include[0].include = [{
+        model: this._ArticleCategory,
+        as: Aliase.ARTICLE_CATEGORIES,
+        attributes: []
+      }];
+    }
+
+    if (comments) {
+      include.push(this._commentInclusion);
+    }
+
+    return include;
+  }
 }
 
 module.exports = ArticleService;
