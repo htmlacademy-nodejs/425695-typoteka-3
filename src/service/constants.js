@@ -47,6 +47,12 @@ const FilePath = {
   FILL_DB: './queries/fill-db.sql',
 };
 
+const SocketAction = {
+  CREATE_ARTICLE: 'article:create',
+  ADD_IN_LAST_COMMENT: 'inLastComment:add',
+  UPDATE_IN_LAST_COMMENTS: 'inLastComments:update',
+};
+
 module.exports = {
   API_PREFIX,
   DEFAULT_COMMAND,
@@ -59,5 +65,6 @@ module.exports = {
   FILE_MOCKS_NAME,
   HttpCode,
   MaxCount,
+  SocketAction,
   USER_ARGV_INDEX,
 };

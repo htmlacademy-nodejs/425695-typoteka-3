@@ -1,7 +1,7 @@
 'use strict';
 
 const {Router} = require('express');
-const {HttpCode} = require('../../constants');
+const {HttpCode, SocketAction} = require('../../constants');
 const {commentExist, routeParamsValidator} = require('../../middlewares');
 
 module.exports = (app, commentService) => {
@@ -24,8 +24,14 @@ module.exports = (app, commentService) => {
   route.delete('/:commentId', [commentExist(commentService), routeParamsValidator], async (req, res) => {
     const {commentId} = req.params;
 
+    const isInLast = await commentService.isInLast(commentId);
     const dropedComment = await commentService.drop(commentId);
 
+    if (isInLast) {
+      const lastComments = await commentService.findLast();
+      const io = req.app.locals.socketio;
+      io.emit(SocketAction.UPDATE_IN_LAST_COMMENTS, lastComments);
+    }
     return res.status(HttpCode.OK).json(dropedComment);
   });
 };

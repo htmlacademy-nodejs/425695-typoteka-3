@@ -3,6 +3,7 @@
 const Aliase = require('../models/aliase');
 const truncate = require('../lib/truncate');
 const UserRelatedService = require('./user-related');
+const LAST_COMMENTS_LIMIT = 4;
 
 class CommentService extends UserRelatedService {
   constructor(sequelize) {
@@ -26,12 +27,25 @@ class CommentService extends UserRelatedService {
     return !!deletedRows;
   }
 
-  async findOne(id) {
-    const comment = await this._Comment.findByPk(id);
-    if (comment) {
-      return comment.get({plain: true});
+  async findOne({id, userId = null}) {
+    let options = {};
+    if (userId) {
+      options = {
+        include: [{
+          model: this._User,
+          as: Aliase.USERS,
+          attributes: ['avatar', 'name']
+        }],
+        where: {userId}
+      };
     }
-    return comment;
+    const foundComment = await this._Comment.findByPk(id, options);
+    if (foundComment) {
+      const comment = foundComment.get();
+      comment.truncatedText = truncate(comment.text);
+      return comment;
+    }
+    return foundComment;
   }
 
   async findAll({articleId = null, limit = null, userId = null} = {}) {
@@ -67,12 +81,17 @@ class CommentService extends UserRelatedService {
   }
 
   async findLast() {
-    const comments = await this.findAll({limit: 4});
+    const comments = await this.findAll({limit: LAST_COMMENTS_LIMIT});
     return comments.map((item) => {
       const comment = item.get();
       comment.truncatedText = truncate(comment.text);
       return comment;
     });
+  }
+
+  async isInLast(id) {
+    const comments = await this.findLast();
+    return comments.some((_comment) => _comment.id === +id);
   }
 
 }

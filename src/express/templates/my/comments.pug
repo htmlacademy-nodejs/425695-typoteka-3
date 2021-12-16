@@ -15,6 +15,6 @@ block content
             a.publication__item-text(href=`/articles/${comment.articleId}`) #{comment.text}
             p.publication__text-strong #{comment.Articles.title}
             if comment.userId === user.id
-              form(action=`/comments/delete/${comment.id}` method='POST')
+              form(action=`/my/comments/delete/${comment.id}` method='POST')
                 button.publication__button.button.button--close-item(type='submit')
                   span.visually-hidden Удалить комментарий
