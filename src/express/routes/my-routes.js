@@ -47,7 +47,7 @@ myRouter.post('/comments/delete/:id', auth, async (req, res, next) => {
 
   try {
     await api.dropComment(id);
-    res.redirect('my/comments');
+    res.redirect('back');
   } catch (error) {
     next(error);
   }

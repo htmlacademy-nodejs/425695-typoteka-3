@@ -4,13 +4,13 @@ const express = require('express');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sequelize = require('../service/lib/sequelize');
+const {DEFAULT_SERVER_PORT, Dir, HttpCode} = require('./constants');
+const {articlesRoutes, categoriesRoutes, mainRoutes, myRoutes} = require('./routes');
 
 const {SESSION_SECRET} = process.env;
 if (!SESSION_SECRET) {
   throw new Error('SESSION_SECRET environment variable is not defined');
 }
-const {DEFAULT_SERVER_PORT, Dir, HttpCode} = require('./constants');
-const {articlesRoutes, categoriesRoutes, mainRoutes, myRoutes} = require('./routes');
 
 const mySessionStore = new SequelizeStore({
   db: sequelize,
@@ -43,10 +43,12 @@ app.use('/categories', categoriesRoutes);
 app.use('/my', myRoutes);
 
 app.use((req, res) => {
-  res.status(HttpCode.NOT_FOUND).render('errors/400');
+  const {user} = req.session;
+  res.status(HttpCode.NOT_FOUND).render('errors/400', {user});
 });
 app.use((err, req, res, _next) => {
-  res.status(HttpCode.INTERNAL_SERVER_ERROR).render('errors/500');
+  const {user} = req.session;
+  res.status(HttpCode.INTERNAL_SERVER_ERROR).render('errors/500', {user});
 });
 
 app.listen(DEFAULT_SERVER_PORT);

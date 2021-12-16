@@ -1,7 +1,7 @@
 'use strict';
 const passwordUtils = require('../../lib/password');
 
-async function getMockUsers() {
+const getMockUsers = async () => {
   return [
     {
       name: 'Иван Иванов',
@@ -16,7 +16,7 @@ async function getMockUsers() {
       avatar: 'avatar02.jpg'
     }
   ];
-}
+};
 
 const mockCategories = [
   'Разное', 'Без рамки', 'Музыка', 'IT', 'За жизнь'

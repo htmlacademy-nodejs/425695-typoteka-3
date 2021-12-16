@@ -4,10 +4,10 @@ const {Router} = require('express');
 const {prepareErrors} = require('../utils');
 const {getAPI} = require('../api');
 const {upload} = require('../middlewares');
+const {ARTICLES_PER_PAGE} = require('../constants');
 
 const mainRouter = new Router();
 const api = getAPI();
-const ARTICLES_PER_PAGE = 8;
 
 mainRouter.get('/', async (req, res, next) => {
   const {user} = req.session;
@@ -41,7 +41,7 @@ mainRouter.post('/register', upload.single('upload'), async (req, res) => {
   const {body, file} = req;
 
   const userData = {
-    avatar: file ? file.filename.split('@1x')[0] : '',
+    avatar: file ? file.filename : '',
     name: `${body['name']} ${body['surname']}`,
     email: body['email'],
     password: body['password'],
@@ -98,4 +98,5 @@ mainRouter.get('/search', async (req, res) => {
   }
 
 });
+
 module.exports = mainRouter;

@@ -10,9 +10,9 @@ const {getRandomInt, shuffle} = require('../utils');
 
 const logger = getLogger({name: 'fill'});
 
-function getUserId(userCount) {
+const getUserId = (userCount) => {
   return getRandomInt(1, userCount);
-}
+};
 
 const generateComments = (articleId, count, comments, userCount) => (
   Array(count).fill({}).map(() => ({
@@ -81,8 +81,8 @@ module.exports = {
 
     const [count] = args;
     const countArticle = Number.parseInt(count, 10) || DEFAULT_ARTICLES_COUNT;
-    if (countArticle > 1000) {
-      logger.info(chalk.red('Не больше 1000 публикаций.'));
+    if (countArticle > MaxCount.ARTICLES) {
+      logger.info(chalk.red(`Не больше ${MaxCount.ARTICLES} публикаций.`));
       process.exit(ExitCode.ERROR);
     }
 

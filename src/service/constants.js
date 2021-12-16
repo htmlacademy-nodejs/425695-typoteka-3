@@ -5,6 +5,8 @@ const DEFAULT_COMMAND = '--help';
 const DEFAULT_ARTICLES_COUNT = 3;
 const DEFAULT_PORT = 3000;
 const USER_ARGV_INDEX = 2;
+const FILE_MOCKS_NAME = 'mocks.json';
+const DIR_LOG = './src/service/logs';
 
 const Env = {
   DEVELOPMENT: 'development',
@@ -28,12 +30,10 @@ const HttpCode = {
 
 const MaxCount = {
   ANNOUNCE: 2,
+  ARTICLES: 1000,
   COMMENTS: 4,
   FULLTEXT: 4,
 };
-
-const FILE_MOCKS_NAME = 'mocks.json';
-const DIR_LOG = './src/service/logs';
 
 const FilePath = {
   SENTENCES: './data/sentences.txt',
@@ -44,6 +44,12 @@ const FilePath = {
   MOCKS: `./${FILE_MOCKS_NAME}`,
   LOG: `${DIR_LOG}/api.log`,
   FILL_DB: './queries/fill-db.sql',
+};
+
+const SocketAction = {
+  ADD_LAST_COMMENT: 'lastComment:add',
+  UPDATE_HOT_ARTICLES: 'hotArticles:update',
+  UPDATE_LAST_COMMENTS: 'lastComments:update',
 };
 
 module.exports = {
@@ -58,5 +64,6 @@ module.exports = {
   FILE_MOCKS_NAME,
   HttpCode,
   MaxCount,
+  SocketAction,
   USER_ARGV_INDEX,
 };

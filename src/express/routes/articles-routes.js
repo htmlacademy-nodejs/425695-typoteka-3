@@ -6,11 +6,11 @@ let dayjs = require('dayjs');
 const {getAPI} = require('../api');
 const {auth, upload} = require('../middlewares');
 const {ensureArray, prepareErrors} = require('../utils');
+const {ARTICLES_PER_PAGE} = require('../constants');
 
 const api = getAPI();
 const articlesRouter = new Router();
 const csrfProtection = csrf();
-const ARTICLES_PER_PAGE = 8;
 
 const getAddArticleData = async () => {
   return await api.getCategories({count: false});
@@ -38,7 +38,7 @@ articlesRouter.post('/add',
         announce: body.announcement,
         categories: ensureArray(body.categories),
         fullText: body['full-text'],
-        picture: file ? file.filename.split('@1x')[0] : '',
+        picture: file ? file.filename : '',
         title: body.title,
         publishedAt: body.date,
         userId: user.id,
@@ -120,7 +120,7 @@ articlesRouter.post('/edit/:id', auth, upload.single('upload'), csrfProtection, 
     announce: body.announcement,
     categories: ensureArray(body.categories),
     fullText: body['full-text'],
-    picture: file ? file.filename.split('@1x')[0] : body.photo || '',
+    picture: file ? file.filename : body.photo || '',
     title: body.title,
     publishedAt: body.date,
     userId: user.id,

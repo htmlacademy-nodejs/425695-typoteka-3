@@ -1,10 +1,11 @@
 'use strict';
 
 const {Router} = require('express');
-const {HttpCode} = require('../../constants');
+const {HttpCode, SocketAction} = require('../../constants');
 const {commentExist, routeParamsValidator} = require('../../middlewares');
+const {emitHotArticlesUpdate} = require('../../lib/io-emmiters');
 
-module.exports = (app, commentService) => {
+module.exports = (app, commentService, articleService) => {
   const route = new Router();
   app.use('/comments', route);
 
@@ -23,9 +24,21 @@ module.exports = (app, commentService) => {
 
   route.delete('/:commentId', [commentExist(commentService), routeParamsValidator], async (req, res) => {
     const {commentId} = req.params;
+    const {comment} = res.locals;
+    const io = req.app.locals.socketio;
 
-    const dropedComment = await commentService.drop(commentId);
+    const isInLastComments = await commentService.isInLast(commentId);
+    const isDroped = await commentService.drop(commentId);
 
-    return res.status(HttpCode.OK).json(dropedComment);
+    if (isDroped) {
+      if (isInLastComments) {
+        const lastComments = await commentService.findLast();
+        io.emit(SocketAction.UPDATE_LAST_COMMENTS, lastComments);
+      }
+      await emitHotArticlesUpdate({io, articleId: comment.articleId, articleService});
+    }
+
+
+    return res.status(HttpCode.OK).json(isDroped);
   });
 };

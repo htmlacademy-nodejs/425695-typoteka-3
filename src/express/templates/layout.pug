@@ -63,5 +63,9 @@ body
     include partials/header.pug
     block content
     include partials/footer.pug
+    include partials/templates/article-hot.pug
+    include partials/templates/comment-last.pug
+  script(src="https://cdn.socket.io/4.0.1/socket.io.js")
   script(src='/js/vendor.js')
   script(src='/js/main.js')
+  script(src='/js/socket.js')

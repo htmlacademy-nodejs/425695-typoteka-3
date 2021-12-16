@@ -53,6 +53,7 @@
     "pino": "6.11.3",
     "pino-pretty": "4.7.1",
     "pug": "2.0.4",
-    "sequelize": "6.6.5"
+    "sequelize": "6.6.5",
+    "socket.io": "4.4.0"
   }
 }

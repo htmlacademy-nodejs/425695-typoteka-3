@@ -6,8 +6,7 @@ class Article extends Model {}
 
 const define = (sequelize) => Article.init({
   announce: {
-    // eslint-disable-next-line new-cap
-    type: DataTypes.STRING(1000),
+    type: new DataTypes.STRING(1000),
     allowNull: false
   },
   picture: DataTypes.STRING,
@@ -16,8 +15,7 @@ const define = (sequelize) => Article.init({
     allowNull: false
   },
   fullText: {
-    // eslint-disable-next-line new-cap
-    type: DataTypes.STRING(1000),
+    type: new DataTypes.STRING(1000),
     allowNull: false
   },
   publishedAt: {
