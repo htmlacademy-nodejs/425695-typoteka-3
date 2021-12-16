@@ -175,6 +175,11 @@ class ArticleService extends UserRelatedService {
     return {count, articles: rows};
   }
 
+  async isInHot(id) {
+    const articles = await this.findHot();
+    return articles.some((_article) => _article.id === +id);
+  }
+
   _getInclude(comments, countCategories = false) {
     const include = [
       {

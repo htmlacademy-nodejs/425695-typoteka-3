@@ -4,44 +4,39 @@ const DEFAULT_SERVER_PORT = 3000;
 const ARTICLES_PER_PAGE = 8;
 const LAST_COMMENTS_LIMIT = 4;
 const SocketAction = {
-  CREATE_ARTICLE: 'article:create',
-  ADD_IN_LAST_COMMENT: 'inLastComment:add',
-  UPDATE_IN_LAST_COMMENTS: 'inLastComments:update',
+  ADD_LAST_COMMENT: 'lastComment:add',
+  UPDATE_HOT_ARTICLES: 'hotArticles:update',
+  UPDATE_LAST_COMMENTS: 'lastComments:update',
 };
 
 (() => {
   const SERVER_URL = `http://localhost:${DEFAULT_SERVER_PORT}`;
   const socket = io(SERVER_URL);
 
-  // const updateHotArticles = (article) => {
-  //   const previewListElement = document.querySelector(`.preview__list`);
-  //   const previewItems = [...previewListElement.querySelectorAll(`.preview__item`)];
-  //   const newPreviewItem = createArticleElement(article);
+  const createHotArticleElement = (article) => {
+    const hotArticleTemplate = document.querySelector(`#template-article-hot`);
+    const hotArticleElement = hotArticleTemplate.cloneNode(true).content;
+    const hotArticleLink = hotArticleElement.querySelector(`.hot__list-link`);
+    const hotArticleSup = hotArticleElement.querySelector(`.hot__link-sup`);
 
-  //   for (const previewItem of previewItems) {
-  //     const timeElement = previewItem.querySelector(`time`);
+    hotArticleLink.href = `/articles/${article.id}`;
+    hotArticleLink.textContent = `${article.truncatedText}`
+    hotArticleSup.textContent = `${article.commentsCount}`
+    hotArticleLink.append(hotArticleSup)
 
-  //     if (timeElement.dateTime <= article.createdAt) {
-  //       previewListElement.insertBefore(newPreviewItem, previewItem);
-
-  //       if (previewItems.length === ARTICLES_PER_PAGE) {
-  //         previewItems[previewItems.length - 1].remove();
-  //       }
-  //       return;
-  //     }
-  //   }
-  // };
+    return hotArticleElement;
+  };
 
   const createLastCommentElement = (comment) => {
-    const commentTemplate = document.querySelector(`#template-comment-last`);
-    const commentElement = commentTemplate.cloneNode(true).content;
+    const lastCommentTemplate = document.querySelector(`#template-comment-last`);
+    const lastCommentElement = lastCommentTemplate.cloneNode(true).content;
 
-    commentElement.querySelector(`.last__list-image`).src = `/img/${comment.Users.avatar}`;
-    commentElement.querySelector(`.last__list-name`).textContent = `${comment.Users.name}`
-    commentElement.querySelector(`.last__list-link`).href = `/articles/${comment.articleId}`;
-    commentElement.querySelector(`.last__list-link`).textContent = `${comment.truncatedText}`;
+    lastCommentElement.querySelector(`.last__list-image`).src = `/img/${comment.Users.avatar}`;
+    lastCommentElement.querySelector(`.last__list-name`).textContent = `${comment.Users.name}`
+    lastCommentElement.querySelector(`.last__list-link`).href = `/articles/${comment.articleId}`;
+    lastCommentElement.querySelector(`.last__list-link`).textContent = `${comment.truncatedText}`;
 
-    return commentElement;
+    return lastCommentElement;
   };
 
   const addLastComment = (comment) => {
@@ -55,21 +50,29 @@ const SocketAction = {
     lastCommentsList.prepend(createLastCommentElement(comment));
   };
 
-  const updateLastComments = (comments) => {
-    const lastCommentsList = document.querySelector(`.last__list`);
-    while (lastCommentsList.lastElementChild) {
-      lastCommentsList.removeChild(lastCommentsList.lastElementChild);
+  const updateHotArticles = (articles) => {
+    const hotArticlesList = document.querySelector(`.hot__list`);
+    const hotArticles = hotArticlesList.querySelectorAll(`.hot__list-item`);
+    for (let _i = 0; _i < hotArticles.length; _i++) {
+      hotArticles[_i].remove();
     }
-    comments.forEach((_comment) => {
-    lastCommentsList.append(createLastCommentElement(_comment));
-
+    articles.forEach((_article) => {
+      hotArticlesList.append(createHotArticleElement(_article));
     });
   };
 
-  // socket.addEventListener(SocketAction.CREATE_ARTICLE, (article) => {
-  //   updateHotArticles(article);
-  // });
+  const updateLastComments = (comments) => {
+    const lastCommentsList = document.querySelector(`.last__list`);
+    const lastComments = lastCommentsList.querySelectorAll(`.last__list-item`);
+    for (let _i = 0; _i < lastComments.length; _i++) {
+      lastComments[_i].remove();
+    }
+    comments.forEach((_comment) => {
+      lastCommentsList.append(createLastCommentElement(_comment));
+    });
+  };
 
-  socket.addEventListener(SocketAction.ADD_IN_LAST_COMMENT, addLastComment);
-  socket.addEventListener(SocketAction.UPDATE_IN_LAST_COMMENTS, updateLastComments);
+  socket.addEventListener(SocketAction.ADD_LAST_COMMENT, addLastComment);
+  socket.addEventListener(SocketAction.UPDATE_HOT_ARTICLES, updateHotArticles);
+  socket.addEventListener(SocketAction.UPDATE_LAST_COMMENTS, updateLastComments);
 })();

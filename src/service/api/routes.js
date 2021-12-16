@@ -26,7 +26,7 @@ defineModels(sequelize);
   user(app, new UserService(sequelize));
   articles(app, new ArticleService(sequelize), new CommentService(sequelize));
   categories(app, new CategoryService(sequelize));
-  comments(app, new CommentService(sequelize));
+  comments(app, new CommentService(sequelize), new ArticleService(sequelize));
   search(app, new SearchService(sequelize));
 })();
 

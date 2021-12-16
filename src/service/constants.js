@@ -48,9 +48,9 @@ const FilePath = {
 };
 
 const SocketAction = {
-  CREATE_ARTICLE: 'article:create',
-  ADD_IN_LAST_COMMENT: 'inLastComment:add',
-  UPDATE_IN_LAST_COMMENTS: 'inLastComments:update',
+  ADD_LAST_COMMENT: 'lastComment:add',
+  UPDATE_HOT_ARTICLES: 'hotArticles:update',
+  UPDATE_LAST_COMMENTS: 'lastComments:update',
 };
 
 module.exports = {
